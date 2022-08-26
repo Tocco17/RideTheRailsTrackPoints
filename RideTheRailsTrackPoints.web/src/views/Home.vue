@@ -3,10 +3,9 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   data() {
-    return {
-      navbarOpened: false,
-    };
+    return {};
   },
+  components: {},
   setup() {},
   methods: {},
   computed: {},
@@ -14,10 +13,5 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div class="flex flex-row justify-start items-start">HOME</div>
 </template>
-
-<style scoped>
-</style>
