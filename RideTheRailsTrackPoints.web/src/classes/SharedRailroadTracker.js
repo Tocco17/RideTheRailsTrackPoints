@@ -7,7 +7,7 @@ export class SharedRailroadTracker {
         this.Shared = 0
     }
 
-    Add() {
+    TakeAShare() {
         if (this.Shared == this.MaxSharedElements) {
             console.error('Already reached maximum capacity')
             return
