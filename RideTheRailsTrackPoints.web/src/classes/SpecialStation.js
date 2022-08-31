@@ -1,17 +1,26 @@
-export class SpecialStation{
-	constructor(name, points){
-		this.Name = name
-		this.Points = points
-		this.AchievedPlayer = null
-		this.Takeable = true
-	}
+export class SpecialStation {
+    constructor(name, points, alwaysTakeable) {
+        this.Name = name
+        this.Points = points
+        this.AchievedPlayer = null
+        this.Takeable = true
+        this.AlwaysTakeable = !!alwaysTakeable
+    }
 
-	IsTaken(){
-		return !!this.AchievedPlayer
-	}
+    isTakeable() {
+        return this.AlwaysTakeable || this.Takeable
+    }
 
-	Take(player){
-		this.AchievedPlayer = player
-		this.Takeable = false
-	}
+    take(player) {
+        if (!this.IsTakeable()) return
+
+        this.AchievedPlayer = player
+        this.Takeable = false
+
+        player.score(this.Points)
+    }
+
+    noMoreAvailable() {
+        this.Takeable = false
+    }
 }
