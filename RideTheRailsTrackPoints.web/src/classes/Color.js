@@ -6,6 +6,7 @@ export class Color {
 }
 
 export const Colors = {
+    None: new Color('None', 1),
     Player: {
         White: new Color('White', 1),
         Cyan: new Color('Cyan', 1),
