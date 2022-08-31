@@ -13,20 +13,20 @@ export const Colors = {
         Pink: new Color('Pink', 1),
         Green: new Color('Green', 1),
         Red: new Color('Red', 1),
-        GetColor: GetColor
+        getColor
     },
-    SharedTracker: {
+    Locomotive: {
         Black: new Color('Black', 1),
         Purple: new Color('Purple', 1),
         Yellow: new Color('Yellow', 1),
         Orange: new Color('Orange', 1),
         Blue: new Color('Blue', 1),
         Red: new Color('Red', 1),
-        GetColor: GetColor
+        getColor
     },
 }
 
-function GetColor(index) {
+function getColor(index) {
     const propertiesNumber = Object.keys(this).length - 1
 
     if (!index) index = Math.floor(Math.random() * propertiesNumber) + 1

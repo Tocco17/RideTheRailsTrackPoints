@@ -1,13 +1,14 @@
 import { Color } from "./Color"
+import { Locomotives } from "./Locomotive"
 
 export class SharedRailroadTracker {
-    constructor(color, maxElements) {
-        this.Color = color
+    constructor(name, maxElements) {
+        this.Locomotive = Locomotives[name]
         this.MaxSharedElements = maxElements
         this.Shared = 0
     }
 
-    TakeAShare() {
+    takeAShare() {
         if (this.Shared == this.MaxSharedElements) {
             console.error('Already reached maximum capacity')
             return

@@ -2,6 +2,7 @@ import { shuffle } from "../utils/Randomize"
 import { Colors } from "./Color"
 import { Player } from "./Player"
 import { SpecialStation } from "./SpecialStation"
+import { Transcontinental } from "./Transcontinental"
 
 export class Game {
     constructor(numberOfPlayers) {
@@ -14,25 +15,36 @@ export class Game {
 
         this.TurnOrder = []
 
-        this.SpecialCities = {
+        this.FiveDollarsCities = {
             Kansas: new SpecialStation('Kansas', 5),
             NewYork: new SpecialStation('NewYork', 5),
             LosAngeles: new SpecialStation('LosAngeles', 5),
-            Chicago: new SpecialStation('Chicago', 5),
+            Hollywood: new SpecialStation('Hollywood', 5),
         }
-
-        this.FullTranscontinental = new SpecialStation('FullTranscontinental', 12)
-        this.Transcontinental = new SpecialStation('Transcontinental', 8)
+        this.Chicago = new SpecialStation('Chicago', 2, true)
+        this.Transcontinental = new Transcontinental()
     }
 
-    newGame(){
+    newGame() {
         let indexPlayers = shuffle([...Array(this.NumberOfPlayers).keys()])
         this.TurnOrder = this.Players.map((p, i) => this.Players[indexPlayers[i]])
     }
 
-    newTurn(){
+    newTurn() {
         this.TurnOrder = this.Players.sort((a, b) => (a.Points > b.Points ? 1 : -1))
     }
 
-    
+    takeAShare(player, locomotive) {
+        player.takeAShare(locomotive)
+    }
+
+
+    rideTheRails(player, railroad) {
+        const activePlayer = player.getColor()
+
+        this.Players.forEach(p => {
+            p.rideTheRails(railroad, p.isEqual(activePlayer))
+        })
+    }
+
 }
