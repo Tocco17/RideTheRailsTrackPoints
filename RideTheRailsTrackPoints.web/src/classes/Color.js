@@ -1,18 +1,18 @@
 export class Color {
-    constructor(name, rgba) {
+    constructor(name, hex) {
         this.Name = name
-        this.RGBA = rgba
+        this.Hex = hex
     }
 }
 
 export const Colors = {
     None: new Color('None', 1),
     Player: {
-        White: new Color('White', 1),
-        Cyan: new Color('Cyan', 1),
-        Pink: new Color('Pink', 1),
-        Green: new Color('Green', 1),
-        Red: new Color('Red', 1),
+        White: new Color('White', '#ffffff'),
+        Cyan: new Color('Cyan', '#22abb5'),
+        Pink: new Color('Pink', '#af6ce6'),
+        Green: new Color('Green', '#17de14'),
+        Red: new Color('Red', '#390961'),
         getColor
     },
     Locomotive: {
