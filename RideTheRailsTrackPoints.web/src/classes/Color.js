@@ -29,7 +29,7 @@ export const Colors = {
 function getColor(index) {
     const propertiesNumber = Object.keys(this).length - 1
 
-    if (!index) index = Math.floor(Math.random() * propertiesNumber) + 1
+    if (!index && index !== 0) index = Math.floor(Math.random() * propertiesNumber) + 1
     else if (index >= propertiesNumber) {
         console.error('Exceeded element number')
         return
