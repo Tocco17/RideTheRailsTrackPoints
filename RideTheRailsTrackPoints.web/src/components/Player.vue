@@ -46,9 +46,12 @@ export default {
 <template>
     <div class="player">
         <Color :color="player.color" :check="player.check" @color-clicked="colorClicked"></Color>
-        <div v-show="player.check">
-            <input v-if="editable" type="text" v-model="player.name" placeholder="Insert a name" required />
-            <label v-else>{{ player.name }}</label>
+        <div v-if="editable">
+            <input v-show="player.check" type="text" v-model="player.name" placeholder="Insert a name" required />
+        </div>
+        <div v-else>
+            <label>{{ player.name }}</label>
+            <label>{{ player.points }}</label>
         </div>
     </div>
 </template>
