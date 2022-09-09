@@ -3,14 +3,14 @@ import { PlayerBoard } from "./PlayerBoard"
 
 export class Player {
     constructor(name, color) {
-        this.Name = name
-        this.Color = Colors.Player[color]
-        this.Points = 0
-        this.Board = new PlayerBoard()
+        this.name = name
+        this.color = Colors.Player[color]
+        this.points = 0
+        this.board = new PlayerBoard()
     }
 
     getColor() {
-        return this.Color.Name
+        return this.color.name
     }
 
     isEqual(name) {
@@ -18,15 +18,15 @@ export class Player {
     }
 
     score(points) {
-        this.Points += points
+        this.points += points
     }
 
     takeAShare(locomotive) {
-        this.Board[locomotive].takeAShare()
+        this.board[locomotive].takeAShare()
     }
 
     rideTheRails(railroad, isActivePlayer) {
-        if (isActivePlayer) this.Points += railroad.Links.Length + 1
-        this.Points += this.Board.totalPoints(railroad.Links)
+        if (isActivePlayer) this.points += railroad.links.Length + 1
+        this.points += this.board.totalPoints(railroad.links)
     }
 }

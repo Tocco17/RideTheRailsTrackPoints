@@ -2,24 +2,24 @@ import { Player } from "./Player"
 
 export class Transcontinental {
     constructor() {
-        this.Name = 'Transcontinental'
-        this.FullPoints = 12
-        this.Points = 8
-        this.AchievedPlayer = null
-        this.Takeable = true
+        this.name = 'Transcontinental'
+        this.fullPoints = 12
+        this.points = 8
+        this.achievedPlayer = null
+        this.takeable = true
     }
 
     isTakeable() {
-        return this.Takeable
+        return this.takeable
     }
 
     take(player, isFull) {
         if (!this.isTakeable()) return
 
-        this.AchievedPlayer = player
-        this.Takeable = false
+        this.achievedPlayer = player
+        this.takeable = false
 
-        const points = isFull ? this.FullPoints : this.Points
+        const points = isFull ? this.fullPoints : this.points
         player.score(points)
     }
 }

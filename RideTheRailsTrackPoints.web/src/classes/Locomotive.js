@@ -2,16 +2,16 @@ import { Colors } from "./Color"
 
 export class Locomotive {
     constructor(name) {
-        this.Name = name
-        this.Color = Colors.Locomotive[name]
+        this.name = name
+        this.color = Colors.Locomotive[name]
     }
 }
 
 export const Locomotives = {
-    Black: new Locomotive("Black"),
-    Purple: new Locomotive("Purple"),
-    Yellow: new Locomotive("Yellow"),
-    Orange: new Locomotive("Orange"),
-    Blue: new Locomotive("Blue"),
-    Red: new Locomotive("Red"),
+    black: new Locomotive("black"),
+    purple: new Locomotive("purple"),
+    yellow: new Locomotive("yellow"),
+    orange: new Locomotive("orange"),
+    blue: new Locomotive("blue"),
+    red: new Locomotive("red"),
 }

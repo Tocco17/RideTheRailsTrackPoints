@@ -1,27 +1,27 @@
 export class Color {
     constructor(name, hex) {
-        this.Name = name
-        this.Hex = hex
+        this.name = name
+        this.hex = hex
     }
 }
 
 export const Colors = {
     None: new Color('None', 1),
     Player: {
-        White: new Color('White', '#ffffff'),
-        Cyan: new Color('Cyan', '#22abb5'),
-        Pink: new Color('Pink', '#af6ce6'),
-        Green: new Color('Green', '#17de14'),
-        Red: new Color('Red', '#390961'),
+        white: new Color('white', '#ffffff'),
+        cyan: new Color('cyan', '#22abb5'),
+        pink: new Color('pink', '#af6ce6'),
+        green: new Color('green', '#17de14'),
+        red: new Color('red', '#390961'),
         getColor
     },
     Locomotive: {
-        Black: new Color('Black', 1),
-        Purple: new Color('Purple', 1),
-        Yellow: new Color('Yellow', 1),
-        Orange: new Color('Orange', 1),
-        Blue: new Color('Blue', 1),
-        Red: new Color('Red', 1),
+        black: new Color('black', 1),
+        purple: new Color('purple', 1),
+        yellow: new Color('yellow', 1),
+        orange: new Color('orange', 1),
+        blue: new Color('blue', 1),
+        red: new Color('red', 1),
         getColor
     },
 }
