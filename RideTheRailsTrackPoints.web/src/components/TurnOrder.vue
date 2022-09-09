@@ -1,5 +1,4 @@
 <script>
-import { Colors } from '../classes/Color';
 import Player from './Player.vue';
 
 export default {
