@@ -5,8 +5,8 @@ export default {
 		color: {
 			required: true,
 			default: {
-				Name: '',
-				Hex: ''
+				name: '',
+				hex: ''
 			}
 		},
 		radius: {
@@ -29,7 +29,7 @@ export default {
 	computed: {
 		colorVariable() {
 			return {
-				'--color': this.color.Hex,
+				'--color': this.color.hex,
 				'--radius': this.radius,
 				'--opacity': this.check ? 1 : 0.5
 			}

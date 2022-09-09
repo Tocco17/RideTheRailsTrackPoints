@@ -54,6 +54,7 @@ export default {
             <Player :player="player" :editable="true"></Player>
         </li>
     </ul>
+
     <div>
         <button :disabled="isContinueDisabled" @click="initGame">Continue</button>
     </div>
