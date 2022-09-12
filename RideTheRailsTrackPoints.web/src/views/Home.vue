@@ -14,7 +14,7 @@ export default defineComponent({
   data() {
     return {
       gamePhase: 0,
-      round: 4,
+      round: 0,
       players: [],
       playerTurn: -1,
       setted: false
@@ -62,6 +62,13 @@ export default defineComponent({
       if (this.playerTurn === this.players.length - 1) this.playerTurn = 0
       else this.playerTurn++
       this.playerInTurn.check = true
+
+      return this.playerTurn !== 0
+    },
+    shareTaken() {
+      if (this.nextPlayer()) return
+
+      this.gamePhase++
     }
   },
   computed: {
@@ -112,11 +119,10 @@ export default defineComponent({
 
     <div>
       <TurnOrder :players="players"></TurnOrder>
-      <button @click="nextPlayer">Next</button>
     </div>
 
     <div v-if="isTakeASharePhase">
-      <TakeAShare :round="round" :player="playerInTurn"></TakeAShare>
+      <TakeAShare :round="round" :player="playerInTurn" @share-taken="shareTaken"></TakeAShare>
     </div>
 
     <div v-if="isBuildRailroadTrackPhase">

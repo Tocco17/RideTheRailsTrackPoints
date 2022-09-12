@@ -19,9 +19,9 @@ export class SharedRailroadTracker {
             return
         }
 
-        this.shared++
+        this.shared++;
 
-            const lastShared = this.spaces.filter(s => s.check).length
+        const lastShared = this.spaces.filter(s => s.check).length
         this.spaces[lastShared].check = true
     }
 }

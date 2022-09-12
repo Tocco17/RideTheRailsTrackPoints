@@ -16,13 +16,11 @@ export default {
     data() {
     },
     methods: {
-        tookAShare(color) {
-            // let track = this.getTrack(color.name)
-            // track.shared++
+        takeAShare(color) {
             this.player.playerboard.takeAShare(color.name)
+            this.$emit('shareTaken')
         },
         getTrack(name) {
-            // return this.player.playerboard.tracks.find(t => t.locomotive.name === name)
             return this.player.playerboard.getTrack(name)
         }
     },
@@ -54,7 +52,7 @@ export default {
 <template>
     <ul>
         <li v-for="railroad in availableRailroad">
-            <Color :color="railroad" :check="true" @click="tookAShare(railroad)"></Color>
+            <Color :color="railroad" :check="true" @click="takeAShare(railroad)"></Color>
         </li>
     </ul>
 </template>
