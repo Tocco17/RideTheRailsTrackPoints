@@ -1,12 +1,20 @@
+/*
+Color class
+*/
 export class Color {
     constructor(name, hex) {
-        this.name = name
-        this.hex = hex
+        this.name = name //Name of the color
+        this.hex = hex //Hex code of the color
     }
 }
 
+/*
+All color constants are saved
+*/
 export const Colors = {
-    None: new Color('None', 1),
+    //Plain white
+    None: new Color('None', '#ffffff'),
+    //All colors dedicated for the players
     Player: {
         white: new Color('white', '#ffffff'),
         cyan: new Color('cyan', '#22abb5'),
@@ -15,6 +23,7 @@ export const Colors = {
         red: new Color('red', '#390961'),
         getColor
     },
+    //All colors dedicated for the locomotives
     Locomotive: {
         black: new Color('black', '#000000'),
         purple: new Color('purple', '#2b00ff'),
@@ -26,6 +35,7 @@ export const Colors = {
     },
 }
 
+//Function that select a specific color, based on its index
 function getColor(index) {
     const propertiesNumber = Object.keys(this).length - 1
 

@@ -4,44 +4,60 @@ import { Player } from "./Player"
 import { SpecialStation } from "./SpecialStation"
 import { Transcontinental } from "./Transcontinental"
 
+/*
+All the basic properties and functionalities are stored here
+*/
 export class Game {
     constructor(players) {
-        this.players = players
-        this.gamePhase = 1
-        this.round = 1
-        this.playerTurn = 0
-        this.setted = false
+        this.players = players //Players in the game
+        this.phase = 1 //Active phase of the game
+        this.round = 1 //Active round
+        this.playerTurn = 0 //Index of the player in turn
 
-        this.fiveDollarsCities = {
-            Kansas: new SpecialStation('Kansas', 5),
-            NewYork: new SpecialStation('NewYork', 5),
-            LosAngeles: new SpecialStation('LosAngeles', 5),
-            Hollywood: new SpecialStation('Hollywood', 5),
-        }
+        //Cities that will give 5 points
+        this.fiveDollarsCities = [
+            new SpecialStation('Kansas', 5),
+            new SpecialStation('NewYork', 5),
+            new SpecialStation('LosAngeles', 5),
+            new SpecialStation('Hollywood', 5),
+        ]
+
+        //Special city
         this.chicago = new SpecialStation('Chicago', 2, true)
+
+        //Special achievable goal
         this.transcontinental = new Transcontinental()
     }
 
+    /*
+    Order the players in a random manner
+    */
     newGame() {
-        let indexPlayers = shuffle([...Array(this.numberOfPlayers).keys()])
-        this.turnOrder = this.players.map((p, i) => this.players[indexPlayers[i]])
+        shuffle(this.players)
+        this.manageTurnOrder()
     }
 
-    newTurn() {
-        this.turnOrder = this.players.sort((a, b) => (a.points > b.points ? 1 : -1))
+    /*
+    Order the players based on their points
+    */
+    newRound() {
+        this.players.sort((p1, p2) => p1.points > p2.points ? 1 : -1)
+        this.manageTurnOrder()
     }
 
-    takeAShare(player, locomotive) {
-        player.takeAShare(locomotive)
+    /*
+    Set the turnOrder property with the correct value
+    */
+    manageTurnOrder() {
+        this.players.forEach((p, index) => p.turnOrder = index)
     }
 
+    // rideTheRails(player, railroad) {
+    //     const activePlayer = player.getColor()
 
-    rideTheRails(player, railroad) {
-        const activePlayer = player.getColor()
-
-        this.players.forEach(p => {
-            p.rideTheRails(railroad, p.isEqual(activePlayer))
-        })
-    }
+    //     this.players.forEach(p => {
+    //         p.rideTheRails(railroad, p.isEqual(activePlayer))
+    //     })
+    // }
 
 }

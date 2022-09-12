@@ -1,26 +1,29 @@
+/*
+Special station that will give some points
+*/
 export class SpecialStation {
     constructor(name, points, alwaysTakeable) {
-        this.name = name
-        this.points = points
-        this.achievedPlayer = null
-        this.takeable = true
-        this.alwaysTakeable = !!alwaysTakeable
+        this.name = name //Name of the station
+        this.points = points //Number of points it will give
+        this.achievedPlayer = null //Player that achieved this station
+        this.takeable = true //If it's still available
+        this.alwaysTakeable = !!alwaysTakeable //If it's always available
     }
 
-    isTakeable() {
-        return this.alwaysTakeable || this.takeable
-    }
+    // isTakeable() {
+    //     return this.alwaysTakeable || this.takeable
+    // }
 
-    take(player) {
-        if (!this.IsTakeable()) return
+    // take(player) {
+    //     if (!this.IsTakeable()) return
 
-        this.achievedPlayer = player
-        this.takeable = false
+    //     this.achievedPlayer = player
+    //     this.takeable = false
 
-        player.score(this.points)
-    }
+    //     player.score(this.points)
+    // }
 
-    noMoreAvailable() {
-        this.takeable = false
-    }
+    // noMoreAvailable() {
+    //     this.takeable = false
+    // }
 }
