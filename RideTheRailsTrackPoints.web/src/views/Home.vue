@@ -8,11 +8,13 @@ import { Colors } from "../classes/Color";
 import TakeAShare from "../components/TakeAShare.vue";
 import BuildRailroadTrack from "../components/BuildRailroadTrack.vue";
 import RideTheRails from "../components/RideTheRails.vue";
+import { PlayerBoard } from "../classes/PlayerBoard";
 
 export default defineComponent({
   data() {
     return {
       gamePhase: 0,
+      round: 4,
       players: [],
       playerTurn: -1,
       setted: false
@@ -27,7 +29,8 @@ export default defineComponent({
         return {
           ...p,
           points: 0,
-          turnOrder: undefined
+          turnOrder: undefined,
+          playerboard: new PlayerBoard()
         }
       })
       this.manageTurnOrder(true)
@@ -36,6 +39,7 @@ export default defineComponent({
       console.table(this.players)
       console.log('---------------------')
       this.gamePhase++
+      this.round++
       this.playerTurn++
       this.playerInTurn.check = true
     },
@@ -112,7 +116,7 @@ export default defineComponent({
     </div>
 
     <div v-if="isTakeASharePhase">
-      <TakeAShare :player="playerInTurn"></TakeAShare>
+      <TakeAShare :round="round" :player="playerInTurn"></TakeAShare>
     </div>
 
     <div v-if="isBuildRailroadTrackPhase">
