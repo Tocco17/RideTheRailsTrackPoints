@@ -16,12 +16,12 @@ export const Colors = {
         getColor
     },
     Locomotive: {
-        black: new Color('black', 1),
-        purple: new Color('purple', 1),
-        yellow: new Color('yellow', 1),
-        orange: new Color('orange', 1),
-        blue: new Color('blue', 1),
-        red: new Color('red', 1),
+        black: new Color('black', '#000000'),
+        purple: new Color('purple', '#2b00ff'),
+        yellow: new Color('yellow', '#f2ff00'),
+        orange: new Color('orange', '#ff6a00'),
+        blue: new Color('blue', '#003cff'),
+        red: new Color('red', '#ff1100'),
         getColor
     },
 }
