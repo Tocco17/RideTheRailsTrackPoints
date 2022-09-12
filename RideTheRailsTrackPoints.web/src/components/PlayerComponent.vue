@@ -1,7 +1,7 @@
 <script>
 import Color from "./Color.vue";
 export default {
-    name: "player",
+    name: "playerComponent",
     props: {
         editable: {
             type: Boolean,

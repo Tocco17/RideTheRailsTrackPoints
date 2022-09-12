@@ -1,5 +1,5 @@
+<!-- It manages the Take A Share phase  -->
 <script>
-import Player from './Player.vue';
 import Color from './Color.vue';
 import { Colors } from '../classes/Color';
 
@@ -17,7 +17,7 @@ export default {
     },
     methods: {
         takeAShare(color) {
-            this.player.playerboard.takeAShare(color.name)
+            this.player.takeAShare(color.name)
             this.$emit('shareTaken')
         },
         getTrack(name) {
@@ -28,7 +28,7 @@ export default {
         availableRailroad() {
             return this.roundColors.filter(c => {
                 const track = this.getTrack(c.name)
-                return track.shared < track.maxSharedElements
+                return track.shared < track.maxElements
             })
         },
         roundColors() {
@@ -45,7 +45,7 @@ export default {
             return colors
         }
     },
-    components: { Player, Color }
+    components: { Color }
 }
 </script>
         

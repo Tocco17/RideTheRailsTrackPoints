@@ -1,5 +1,5 @@
 <script>
-import Player from './Player.vue';
+import PlayerComponent from './PlayerComponent.vue';
 
 export default {
     name: "buildRailRoadTrack",
@@ -14,9 +14,9 @@ export default {
     },
     computed: {
     },
-    components: { Player }
+    components: { PlayerComponent }
 }
 </script>
             
-    <template>
+<template>
 </template>

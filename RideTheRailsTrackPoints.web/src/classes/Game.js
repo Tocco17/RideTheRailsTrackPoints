@@ -38,9 +38,30 @@ export class Game {
     }
 
     /*
+    Passes to the next player
+    */
+    nextTurn() {
+        this.getPlayerInTurn().check = false
+        if (this.playerTurn === this.players.length - 1) this.nextPhase()
+        else this.playerTurn++;
+        this.getPlayerInTurn().check = true
+    }
+
+    /*
+    Passes to the next phase of the game
+    */
+    nextPhase() {
+        this.playerTurn = 0
+        if (this.phase === 3) this.nextRound()
+        else this.phase++;
+    }
+
+    /*
     Order the players based on their points
     */
-    newRound() {
+    nextRound() {
+        this.round++;
+        this.phase = 1
         this.players.sort((p1, p2) => p1.points > p2.points ? 1 : -1)
         this.manageTurnOrder()
     }
@@ -49,7 +70,18 @@ export class Game {
     Set the turnOrder property with the correct value
     */
     manageTurnOrder() {
-        this.players.forEach((p, index) => p.turnOrder = index)
+        this.players.forEach((p, index) => {
+            p.turnOrder = index
+            p.check = index === 0
+        })
+        this.playerTurn = 0
+    }
+
+    /*
+    Get the current active player
+    */
+    getPlayerInTurn() {
+        return this.players[this.playerTurn]
     }
 
     // rideTheRails(player, railroad) {

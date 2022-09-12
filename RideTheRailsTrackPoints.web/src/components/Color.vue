@@ -1,7 +1,9 @@
+<!-- To have a colored pointer -->
 <script>
 export default {
 	name: 'player',
 	props: {
+		//Color of the component
 		color: {
 			required: true,
 			default: {
@@ -9,10 +11,12 @@ export default {
 				hex: ''
 			}
 		},
+		//How big it must be
 		radius: {
 			required: false,
 			default: '30px'
 		},
+		//Check
 		check: {
 			type: Boolean,
 			required: true,
@@ -22,11 +26,13 @@ export default {
 	data() {
 	},
 	methods: {
+		//When the div is clicked
 		clicked() {
 			this.$emit('colorClicked')
 		}
 	},
 	computed: {
+		//All style variables
 		colorVariable() {
 			return {
 				'--color': this.color.hex,

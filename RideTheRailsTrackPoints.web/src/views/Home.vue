@@ -4,52 +4,27 @@ import NumberOfPlayers from "../components/NumberOfPlayers.vue";
 import { shuffle } from "../utils/Randomize";
 import TurnOrder from "../components/TurnOrder.vue";
 import { Player } from "../classes/Player";
-import { Colors } from "../classes/Color";
 import TakeAShare from "../components/TakeAShare.vue";
 import BuildRailroadTrack from "../components/BuildRailroadTrack.vue";
 import RideTheRails from "../components/RideTheRails.vue";
-import { PlayerBoard } from "../classes/PlayerBoard";
+import { Game } from "../classes/Game";
 
 export default defineComponent({
   data() {
     return {
-      gamePhase: 0,
-      round: 0,
-      players: [],
-      playerTurn: -1,
-      setted: false
+      game: undefined,  //The game, it's valorized only when a new game is created
+      setted: false //TODO - To delete
     };
   },
   components: { NumberOfPlayers, TurnOrder, TakeAShare, BuildRailroadTrack, RideTheRails },
   setup() {
   },
   methods: {
-    initGame(selectedPlayers) {
-      this.players = selectedPlayers.map(p => {
-        return {
-          ...p,
-          points: 0,
-          turnOrder: undefined,
-          playerboard: new PlayerBoard()
-        }
-      })
-      this.manageTurnOrder(true)
-      console.log('---------------------')
-      console.log('Initialize the game')
-      console.table(this.players)
-      console.log('---------------------')
-      this.gamePhase++
-      this.round++
-      this.playerTurn++
-      this.playerInTurn.check = true
-    },
-    manageTurnOrder(isRandom) {
-      if (isRandom) shuffle(this.players)
-      else this.players.sort((p1, p2) => p1.points > p2.points ? 1 : -1)
-
-      this.players.forEach((p, index) => p.turnOrder = index)
-    },
-    createGame() {  //TODO - To delete
+    /*
+    TODO - To delete
+    It simulates a game
+    */
+    createGame() {
       const playersAux = [
         new Player('Fede', 'green'),
         new Player('Leo', 'red'),
@@ -57,46 +32,60 @@ export default defineComponent({
       ]
       this.initGame(playersAux)
     },
-    nextPlayer() {
-      this.playerInTurn.check = false
-      if (this.playerTurn === this.players.length - 1) this.playerTurn = 0
-      else this.playerTurn++
-      this.playerInTurn.check = true
+    /*
+    Set the basis of a game
+    */
+    initGame(selectedPlayers) {
+      this.game = new Game(selectedPlayers) //Game initialized
+      this.game.newGame() //New game
 
-      return this.playerTurn !== 0
+      console.log('---------------------')
+      console.log('Initialize the game')
+      console.table(this.game.players)
+      console.log('---------------------')
     },
+    /*
+    Next player in the turn
+    */
+    next() {
+      this.game.nextTurn()
+    },
+    /*
+    After a share is taken
+    */
     shareTaken() {
-      if (this.nextPlayer()) return
-
-      this.gamePhase++
+      console.log('taken')
+      this.next()
     }
   },
   computed: {
-    setUpGame() {
+    setUpGame() { //TODO - To delete
+      // return
+
       if (this.setted) return
 
       this.createGame()
 
       this.setted = true
-      return this.gamePhase
+      return this.game.phase
     },
     isSelectPlayersPhase() {
-      return this.gamePhase === 0
+      return !this.game || this.game.phase === 0
     },
     isInGame() {
-      return this.gamePhase !== 0
+      return this.game.phase !== 0
     },
     isTakeASharePhase() {
-      return this.gamePhase === 1
+      return this.game.phase === 1
     },
     isBuildRailroadTrackPhase() {
-      return this.gamePhase === 2
+      return this.game.phase === 2
     },
     isRideTheRailsPhase() {
-      return this.gamePhase === 3
+      return this.game.phase === 3
     },
     playerInTurn() {
-      return this.players[this.playerTurn]
+      return this.game.getPlayerInTurn()
     },
 
 
@@ -118,11 +107,11 @@ export default defineComponent({
     <h2>Game</h2>
 
     <div>
-      <TurnOrder :players="players"></TurnOrder>
+      <TurnOrder :players="game.players"></TurnOrder>
     </div>
 
     <div v-if="isTakeASharePhase">
-      <TakeAShare :round="round" :player="playerInTurn" @share-taken="shareTaken"></TakeAShare>
+      <TakeAShare :round="game.round" :player="playerInTurn" @share-taken="shareTaken"></TakeAShare>
     </div>
 
     <div v-if="isBuildRailroadTrackPhase">

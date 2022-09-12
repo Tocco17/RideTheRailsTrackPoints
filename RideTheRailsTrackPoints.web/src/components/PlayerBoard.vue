@@ -1,32 +1,24 @@
+<!-- It shows the playerboard -->
 <script>
 import Color from "./Color.vue";
 export default {
-    name: "player",
+    name: "playerboard",
     props: {
         color: {
             required: true
         },
         playerboard: {
             required: true,
-            default: {
-                name: "",
-                colors: ""
-            }
         },
     },
     data() {
     },
     methods: {
-        colorClicked() {
-            this.player.check = !this.player.check
-        },
-        changeName(event) {
-            console.log(event)
-            debugger
-            this.player.name = event.target.value
-        }
     },
     computed: {
+        /*
+        All styles variable
+        */
         colorVariable() {
             return {
                 "--color": this.color.hex
