@@ -5,15 +5,12 @@ import { SpecialStation } from "./SpecialStation"
 import { Transcontinental } from "./Transcontinental"
 
 export class Game {
-    constructor(numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers
-        this.players = []
-
-        for (let i = 0; i < numberOfPlayers; i++) {
-            this.players.push(new Player(Colors.None))
-        }
-
-        this.turnOrder = []
+    constructor(players) {
+        this.players = players
+        this.gamePhase = 1
+        this.round = 1
+        this.playerTurn = 0
+        this.setted = false
 
         this.fiveDollarsCities = {
             Kansas: new SpecialStation('Kansas', 5),
