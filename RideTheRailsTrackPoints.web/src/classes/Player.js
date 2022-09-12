@@ -6,7 +6,7 @@ export class Player {
         this.name = name
         this.color = Colors.Player[color]
         this.points = 0
-        this.board = new PlayerBoard()
+        this.playerboard = new PlayerBoard()
     }
 
     getColor() {
