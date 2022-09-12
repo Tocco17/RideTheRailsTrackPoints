@@ -3,12 +3,22 @@ import { SharedRailroadTracker } from "./SharedRailroadTracker"
 
 export class PlayerBoard {
     constructor() {
-        this.black = new SharedRailroadTracker(Locomotives.black, 2)
-        this.purple = new SharedRailroadTracker(Locomotives.purple, 3)
-        this.yellow = new SharedRailroadTracker(Locomotives.yellow, 4)
-        this.orange = new SharedRailroadTracker(Locomotives.orange, 5)
-        this.blue = new SharedRailroadTracker(Locomotives.blue, 6)
-        this.red = new SharedRailroadTracker(Locomotives.red, 6)
+        this.tracks = [
+            new SharedRailroadTracker(Locomotives.red.name, 6),
+            new SharedRailroadTracker(Locomotives.blue.name, 6),
+            new SharedRailroadTracker(Locomotives.orange.name, 5),
+            new SharedRailroadTracker(Locomotives.yellow.name, 4),
+            new SharedRailroadTracker(Locomotives.purple.name, 3),
+            new SharedRailroadTracker(Locomotives.black.name, 2),
+        ]
+    }
+
+    getTrack(name) {
+        return this.tracks.find(t => t.locomotive.name === name)
+    }
+
+    takeAShare(name) {
+        this.getTrack(name).takeAShare()
     }
 
     totalPoints(links) {
