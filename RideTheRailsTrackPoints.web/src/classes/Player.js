@@ -2,9 +2,11 @@ import { Colors } from "./Color"
 import { PlayerBoard } from "./PlayerBoard"
 
 export class Player {
-    constructor(name, color) {
+    constructor(name, color, check, turnOrder) {
         this.name = name
-        this.color = Colors.Player[color]
+        this.color = typeof color === 'string' ? Colors.Player[color] : color
+        this.check = !!check
+        this.turnOrder = turnOrder
         this.points = 0
         this.playerboard = new PlayerBoard()
     }
@@ -22,7 +24,7 @@ export class Player {
     }
 
     takeAShare(locomotive) {
-        this.board[locomotive].takeAShare()
+        this.playerboard[locomotive].takeAShare()
     }
 
     rideTheRails(railroad, isActivePlayer) {
