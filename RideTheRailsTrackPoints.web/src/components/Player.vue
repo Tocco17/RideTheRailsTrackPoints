@@ -33,11 +33,6 @@ export default {
         }
     },
     computed: {
-        colorVariable() {
-            return {
-                "--color": this.player.color.RGBA
-            };
-        }
     },
     components: { Color }
 }
