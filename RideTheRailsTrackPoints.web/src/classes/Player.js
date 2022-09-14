@@ -22,17 +22,35 @@ export class Player {
         this.playerboard.takeAShare(locomotive)
     }
 
-    // getColor() {
-    //     return this.color.name
-    // }
+    /*
+    Gives points to the player
+    */
+    score(points) {
+        this.points += points
+    }
 
-    // isEqual(name) {
-    //     return this.getColor() === name
-    // }
+    /*
+    Points are reducted by the amount specified
+    */
+    untakePoints(points) {
+        this.points -= points
+    }
 
-    // score(points) {
-    //     this.points += points
-    // }
+    /*
+    Get the color name of the player
+    */
+    getColor() {
+        return this.color.name
+    }
+
+    /*
+    Checks if this player is the same as another one
+    */
+    isEqualTo(player) {
+        return this.getColor() === player.getColor()
+    }
+
+
 
 
     // rideTheRails(railroad, isActivePlayer) {
