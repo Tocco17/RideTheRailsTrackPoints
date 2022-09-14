@@ -1,7 +1,7 @@
 import { shuffle } from "../utils/Randomize"
 import { Colors } from "./Color"
 import { Player } from "./Player"
-import { SpecialStation } from "./SpecialStation"
+import { createChicago, SpecialStation } from "./SpecialStation"
 import { Transcontinental } from "./Transcontinental"
 
 /*
@@ -23,7 +23,7 @@ export class Game {
         ]
 
         //Special city
-        this.chicago = new SpecialStation('Chicago', 2, true)
+        this.chicago = createChicago()
 
         //Special achievable goal
         this.transcontinental = new Transcontinental()
