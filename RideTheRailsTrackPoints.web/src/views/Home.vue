@@ -41,7 +41,7 @@ export default defineComponent({
 
       console.log('---------------------')
       console.log('Initialize the game')
-      console.table(this.game.players)
+      console.table(this.game.chicago)
       console.log('---------------------')
     },
     /*
@@ -54,7 +54,17 @@ export default defineComponent({
     After a share is taken
     */
     shareTaken() {
-      console.log('taken')
+      console.log('---------------------')
+      console.log('share taken')
+      console.table(this.playerInTurn)
+      console.log('---------------------')
+      this.next()
+    },
+    railroadBuiltHome() {
+      console.log('---------------------')
+      console.log('railroad built')
+      console.table(this.playerInTurn)
+      console.log('---------------------')
       this.next()
     }
   },
@@ -115,7 +125,8 @@ export default defineComponent({
     </div>
 
     <div v-if="isBuildRailroadTrackPhase">
-      <BuildRailroadTrack :player="playerInTurn"></BuildRailroadTrack>
+      <BuildRailroadTrack :player="playerInTurn" :five-dollars-cities="game.fiveDollarsCities" :chicago="game.chicago"
+        :transcontinental="game.transcontinental" @railroad-built="railroadBuiltHome"></BuildRailroadTrack>
     </div>
 
     <div v-if="isRideTheRailsPhase">
