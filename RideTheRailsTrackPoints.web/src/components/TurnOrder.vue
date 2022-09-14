@@ -12,6 +12,7 @@ export default {
         }
     },
     data() {
+        return {}
     },
     methods: {
     },
@@ -24,7 +25,7 @@ export default {
 <template>
     <h2>Turn order</h2>
     <ul>
-        <li v-for="player in players" :key="index">
+        <li v-for="player in players">
             <PlayerComponent :player="player" :editable="false"></PlayerComponent>
             <PlayerBoard v-if="player.check" :playerboard="player.playerboard" :color="player.color"></PlayerBoard>
         </li>

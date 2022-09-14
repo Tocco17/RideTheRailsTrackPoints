@@ -21,6 +21,7 @@ export default {
         }
     },
     data() {
+        return {}
     },
     methods: {
         colorClicked() {
@@ -45,8 +46,7 @@ export default {
             <input v-show="player.check" type="text" v-model="player.name" placeholder="Insert a name" required />
         </div>
         <div v-else>
-            <label>{{ player.name }}</label>
-            <label>{{ player.points }}</label>
+            <label>{{ player.name }} - {{ player.points }}</label>
         </div>
     </div>
 </template>

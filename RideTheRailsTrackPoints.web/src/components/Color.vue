@@ -24,6 +24,7 @@ export default {
 		}
 	},
 	data() {
+		return {}
 	},
 	methods: {
 		//When the div is clicked
