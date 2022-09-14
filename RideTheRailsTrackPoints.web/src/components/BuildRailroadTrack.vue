@@ -26,6 +26,7 @@ export default {
     },
     data() {
         return {
+            debug: true
         }
     },
     methods: {
@@ -78,7 +79,7 @@ export default {
 
     <button @click="next">NEXT</button>
 
-    <div>
+    <div v-if="debug">
         <h3>TOOK</h3>
 
         <div>
