@@ -31,17 +31,26 @@ export class PlayerBoard {
         this.getTrack(name).takeAShare()
     }
 
-    // totalPoints(links) {
-    //     const length = links.length
-    //     return links.reduce((points, link) => {
-    //         points += sharePoints(link.firstLocomotive)
-    //         points += sharePoints(link.secondLocomotive)
-    //     }, 0)
-    // }
+    /*
+    It calculates the points for this playerboard
+    */
+    totalPoints(railroads) {
+        const p = railroads.reduce((points, railroad) => {
+            points += this.sharePoints(railroad)
+            return points
+        }, 0)
 
-    // sharePoints(locomotive) {
-    //     if (!locomotive) return 0
+        return p
+    }
 
-    //     return this[locomotive.name].shared * length
-    // }
+    /*
+    It calculates the points of a single railroad
+    */
+    sharePoints(railroad) {
+        if (!railroad) return 0
+
+        let track = this.tracks.filter(t => t.name === railroad.name.toLowerCase())[0]
+
+        return railroad.clicked * track.shared
+    }
 }

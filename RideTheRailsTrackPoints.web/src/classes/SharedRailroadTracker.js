@@ -5,6 +5,7 @@ It's a track in the playerboard
 */
 export class SharedRailroadTracker {
     constructor(name, maxElements) {
+        this.name = name
         this.locomotive = Locomotives[name] //Locomotive of this track
         this.maxElements = maxElements //Maximum number of space for this track
         this.shared = 0 //Number of spaces occupied

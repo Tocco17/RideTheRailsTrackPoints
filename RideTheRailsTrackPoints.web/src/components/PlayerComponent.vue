@@ -15,10 +15,6 @@ export default {
                 colors: ""
             }
         },
-        prova: {
-            required: false,
-            default: ''
-        }
     },
     data() {
         return {}
@@ -28,8 +24,6 @@ export default {
             this.player.check = !this.player.check
         },
         changeName(event) {
-            console.log(event)
-            debugger
             this.player.name = event.target.value
         }
     },

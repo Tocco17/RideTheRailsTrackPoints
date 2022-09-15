@@ -50,11 +50,23 @@ export class Player {
         return this.getColor() === player.getColor()
     }
 
+    /*
+    Calculate the total points taken in the Ride The Rails phase
+     */
+    getRideTheRailsPoints(railroads, isActivePlayer) {
+        let rideTheRailsPoints = this.playerboard.totalPoints(railroads)
 
+        let activePlayerPoints = 0
+        if (isActivePlayer) activePlayerPoints = railroads.reduce((result, rail) => result += rail.clicked, 0)
+        if (activePlayerPoints) rideTheRailsPoints += activePlayerPoints + 1
 
+        return rideTheRailsPoints
+    }
 
-    // rideTheRails(railroad, isActivePlayer) {
-    //     if (isActivePlayer) this.points += railroad.links.Length + 1
-    //     this.points += this.board.totalPoints(railroad.links)
-    // }
+    /*
+    Adds the Ride The Rails Points
+    */
+    rideTheRails(railroads, isActivePlayer) {
+        this.points += this.getRideTheRailsPoints(railroads, isActivePlayer)
+    }
 }

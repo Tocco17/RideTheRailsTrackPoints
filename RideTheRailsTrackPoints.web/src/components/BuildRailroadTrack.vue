@@ -10,6 +10,7 @@ import { Player } from '../classes/Player';
 
 export default {
     name: "buildRailRoadTrack",
+    emits: ['railroadBuilt'],
     props: {
         player: {
             required: true
@@ -31,32 +32,15 @@ export default {
     },
     methods: {
         next() {
-            console.log('---------------------')
-            console.log('Railroad built')
 
             this.fiveDollarsCities.forEach((c, i) => {
-                console.log(`-> ${i} city`)
-                console.log('--> before')
-                console.table(c)
-
                 if (c.check) c.available = false
-
-                console.log('--> after')
-                console.table(c)
             })
 
             this.chicago.check = false
             this.chicago.available = this.chicago.achievedPlayer?.length === 6
 
             this.transcontinental.available = !this.transcontinental.achievedPlayer
-
-            console.log('five dollar city')
-            console.table(this.fiveDollarsCities)
-            console.log('chicago')
-            console.table(this.chicago)
-            console.log('transcontinental')
-            console.table(this.transcontinental)
-            console.log('---------------------')
 
             this.$emit('railroadBuilt')
         }

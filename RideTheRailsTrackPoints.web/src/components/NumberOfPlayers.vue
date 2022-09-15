@@ -6,6 +6,7 @@ import PlayerComponent from './PlayerComponent.vue';
 
 export default {
     name: "numberOfPlayers",
+    emits: ['initGame'],
     props: {},
     data() {
         let players = []
@@ -43,11 +44,6 @@ export default {
         isContinueDisabled() {
             const players = this.checkedPlayer
 
-            console.log('iscontinuedisabled')
-            console.table(players)
-            console.log('length', players.length < 3)
-            console.log('some', players.some(p => !p.name))
-
             /*
             It's disabled if number of players checked is less then 3 and if any of those doesn't have a name
             */
@@ -61,7 +57,7 @@ export default {
 <template>
     <h2>Select the players</h2>
     <ul>
-        <li v-for="player in players" :key="index">
+        <li v-for="player in players">
             <PlayerComponent :player="player" :editable="true"></PlayerComponent>
         </li>
     </ul>

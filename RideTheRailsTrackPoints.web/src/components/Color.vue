@@ -21,6 +21,9 @@ export default {
 			type: Boolean,
 			required: true,
 			default: false
+		},
+		text: {
+			required: false
 		}
 	},
 	data() {
@@ -48,6 +51,7 @@ export default {
     
 <template>
 	<div class="color" :style="colorVariable" @click="clicked">
+		{{text}}
 	</div>
 </template>
     
