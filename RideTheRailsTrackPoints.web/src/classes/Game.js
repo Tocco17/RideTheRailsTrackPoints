@@ -10,8 +10,8 @@ All the basic properties and functionalities are stored here
 export class Game {
     constructor(players) {
         this.players = players //Players in the game
-        this.phase = 1 //Active phase of the game
         this.round = 1 //Active round
+        this.phase = 1 //Active phase of the game
         this.playerTurn = 0 //Index of the player in turn
 
         //Cities that will give 5 points

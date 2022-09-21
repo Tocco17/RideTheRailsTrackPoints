@@ -12,63 +12,88 @@ import { Game } from "../classes/Game";
 export default defineComponent({
   data() {
     return {
-      game: undefined,  //The game, it's valorized only when a new game is created
+      game: undefined, //The game, it's valorized only when a new game is created
     };
   },
-  components: { NumberOfPlayers, TurnOrder, TakeAShare, BuildRailroadTrack, RideTheRails },
-  setup() {
+  components: {
+    NumberOfPlayers,
+    TurnOrder,
+    TakeAShare,
+    BuildRailroadTrack,
+    RideTheRails,
   },
+  setup() {},
   methods: {
     /*
     Set the basis of a game
     */
     initGame(selectedPlayers) {
-      this.game = new Game(selectedPlayers) //Game initialized
-      this.game.newGame() //New game
+      this.game = new Game(selectedPlayers); //Game initialized
+      this.game.newGame(); //New game
     },
     /*
-    Next player in the turn
+    Next passage
     */
     next() {
-      this.game.nextTurn()
+      const gameKey = `game-${this.game.round}-${this.game.phase}-${this.game.playerInTurn}`;
+      localStorage.setItem(gameKey, JSON.stringify(this.game));
+      this.game.nextTurn();
+    },
+    /*
+    Restores passage before
+    */
+    before() {
+      let inTurn = this.game.playerInTurn - 1;
+      let phase = this.game.phase;
+      let round = this.game.round;
+
+      if (inTurn < 0) {
+        inTurn = this.game.players.length - 1;
+        phase--;
+
+        if (phase == 0) {
+          phase = 3;
+          round--;
+        }
+      }
+
+      const key = `game-${round}-${phase}-${inTurn}`;
+      this.game = JSON.parse(localStorage.getItem(key));
     },
     /*
     After a share is taken
     */
     shareTaken() {
-      this.next()
+      this.next();
     },
     railroadBuilt() {
-      this.next()
+      this.next();
     },
     railsRidden() {
-      this.next()
-    }
+      this.next();
+    },
   },
   computed: {
     isSelectPlayersPhase() {
-      return !this.game || this.game.phase === 0
+      return !this.game || this.game.phase === 0;
     },
     isInGame() {
-      return this.game.phase !== 0
+      return this.game.phase !== 0;
     },
     isTakeASharePhase() {
-      return this.game.phase === 1
+      return this.game.phase === 1;
     },
     isBuildRailroadTrackPhase() {
-      return this.game.phase === 2
+      return this.game.phase === 2;
     },
     isRideTheRailsPhase() {
-      return this.game.phase === 3
+      return this.game.phase === 3;
     },
     playerInTurn() {
-      return this.game.getPlayerInTurn()
+      return this.game.getPlayerInTurn();
     },
-
-
   },
 });
-
 </script>
 
 <template>
@@ -88,16 +113,29 @@ export default defineComponent({
     </div>
 
     <div v-if="isTakeASharePhase">
-      <TakeAShare :round="game.round" :player="playerInTurn" @share-taken="shareTaken"></TakeAShare>
+      <TakeAShare
+        :round="game.round"
+        :player="playerInTurn"
+        @share-taken="shareTaken"
+      ></TakeAShare>
     </div>
 
     <div v-if="isBuildRailroadTrackPhase">
-      <BuildRailroadTrack :player="playerInTurn" :five-dollars-cities="game.fiveDollarsCities" :chicago="game.chicago"
-        :transcontinental="game.transcontinental" @railroad-built="railroadBuilt"></BuildRailroadTrack>
+      <BuildRailroadTrack
+        :player="playerInTurn"
+        :five-dollars-cities="game.fiveDollarsCities"
+        :chicago="game.chicago"
+        :transcontinental="game.transcontinental"
+        @railroad-built="railroadBuilt"
+      ></BuildRailroadTrack>
     </div>
 
     <div v-if="isRideTheRailsPhase">
-      <RideTheRails :player-turn="game.playerTurn" :players="game.players" @rails-ridden="railsRidden"></RideTheRails>
+      <RideTheRails
+        :player-turn="game.playerTurn"
+        :players="game.players"
+        @rails-ridden="railsRidden"
+      ></RideTheRails>
     </div>
   </div>
 </template>
