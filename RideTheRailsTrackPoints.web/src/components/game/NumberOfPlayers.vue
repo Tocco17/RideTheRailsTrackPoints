@@ -1,7 +1,7 @@
 <!-- Select players in the game -->
 <script>
-import { Colors } from '../classes/Color';
-import { Player } from '../classes/Player';
+import { Colors } from '../../classes/Color';
+import { Player } from '../../classes/Player';
 import PlayerComponent from './PlayerComponent.vue';
 
 export default {

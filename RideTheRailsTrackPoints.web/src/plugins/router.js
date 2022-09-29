@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router"
 import Home from '../views/Home.vue'
+import Match from '../views/Match.vue'
 
 // We'll talk about nested routes later.
 const routes = [
 	{ path: '/', component: Home },
+	{ path: '/match', component: Match}
 ]
 
 

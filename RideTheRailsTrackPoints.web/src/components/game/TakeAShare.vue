@@ -1,7 +1,7 @@
 <!-- It manages the Take A Share phase  -->
 <script>
 import Color from './Color.vue';
-import { Colors } from '../classes/Color';
+import { Colors } from '../../classes/Color';
 
 export default {
     name: "takeAShare",

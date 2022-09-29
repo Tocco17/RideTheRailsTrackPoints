@@ -7,7 +7,7 @@ export default defineComponent({
       navbarOpened: false,
     };
   },
-  setup() {},
+  setup() { },
   methods: {},
   computed: {},
 });
@@ -19,5 +19,15 @@ export default defineComponent({
   </div>
 </template>
 
+<style v-if="true">
+* {
+  background-color: '#fff';
+}
+</style>
+<style v-else>
+
+</style>
+
 <style scoped>
+
 </style>

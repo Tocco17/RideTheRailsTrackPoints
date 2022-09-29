@@ -2,7 +2,7 @@
 <script>
 import PlayerComponent from './PlayerComponent.vue';
 import Color from './Color.vue';
-import { Colors } from '../classes/Color';
+import { Colors } from '../../classes/Color';
 
 export default {
     name: "transcontinentalComponent",

@@ -2,11 +2,9 @@
 <script>
 import PlayerComponent from './PlayerComponent.vue';
 import Color from './Color.vue';
-import { Colors } from '../classes/Color';
 import FiveDollarsCitiesComponent from './FiveDollarsCitiesComponent.vue';
 import ChicagoComponent from './ChicagoComponent.vue';
 import TranscontinentalComponent from './TranscontinentalComponent.vue';
-import { Player } from '../classes/Player';
 
 export default {
     name: "buildRailRoadTrack",
