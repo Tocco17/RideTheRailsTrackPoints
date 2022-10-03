@@ -13,13 +13,17 @@ export default defineComponent({
 
   },
   computed: {
-
+    menuPosition() {
+      return {
+        'padding-bottom': '20%'
+      }
+    }
   },
 });
 </script>
 
 <template>
-  <ul class="menu">
+  <ul class="menu" :style="menuPosition">
     <li>PLAY</li>
     <li>STATISTICS</li>
     <li>OPTIONS</li>
@@ -35,14 +39,17 @@ body {
   background-size: cover 150%;
   background-position: center top;
   background-attachment: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 ul.menu {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   list-style-type: none;
+}
+
+ul.menu li {
+  color: white;
+  padding: 0.222rem;
 }
 </style>

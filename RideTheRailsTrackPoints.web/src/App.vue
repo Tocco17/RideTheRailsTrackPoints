@@ -14,20 +14,19 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
+  <div class="router-page">
     <router-view />
   </div>
 </template>
 
-<style v-if="true">
-* {
-  background-color: '#fff';
+<style>
+body {
+  background-color: '#000';
 }
-</style>
-<style v-else>
 
-</style>
-
-<style scoped>
-
+.router-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 </style>
