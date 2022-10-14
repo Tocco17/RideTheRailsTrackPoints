@@ -8,11 +8,11 @@ export default defineComponent({
     return {
       iconX: position.x + "px",
       iconY: position.y + "px",
-      iconSpace: position.space + "px"
+      iconSpace: position.space + "px",
     };
   },
   components: {},
-  setup() { },
+  setup() {},
   methods: {
     mouseEnterVoiceMenu(indexVoice) {
       let voice = document.querySelector(`li[data-index='${indexVoice}']`);
@@ -34,7 +34,7 @@ export default defineComponent({
         : { x: -100, y: -100 };
 
       const space = voice ? voice.clientWidth : 0;
-      const pageWidth = window.innerWidth
+      const pageWidth = window.innerWidth;
 
       const x = (pageWidth + space) / 2;
       const y = position.y;
@@ -47,8 +47,8 @@ export default defineComponent({
       this.iconY = position.y + "px";
       this.iconSpace = position.space + "px";
 
-      console.log(voice)
-      console.table(position)
+      console.log(voice);
+      console.table(position);
     },
   },
   computed: {
@@ -82,38 +82,57 @@ export default defineComponent({
 
 <template>
   <ul class="menu" :style="menuPosition">
-    <li data-index="1" @mouseenter="mouseEnterVoiceMenu(1)" @mouseleave="mouseLeaveVoiceMenu(1)">
+    <li
+      data-index="1"
+      @mouseenter="mouseEnterVoiceMenu(1)"
+      @mouseleave="mouseLeaveVoiceMenu(1)"
+    >
       <router-link to="/match">PLAY</router-link>
     </li>
-    <li data-index="2" @mouseenter="mouseEnterVoiceMenu(2)" @mouseleave="mouseLeaveVoiceMenu(2)">
+    <li
+      data-index="2"
+      @mouseenter="mouseEnterVoiceMenu(2)"
+      @mouseleave="mouseLeaveVoiceMenu(2)"
+    >
       <router-link to="">STATISTICS</router-link>
     </li>
-    <li data-index="3" @mouseenter="mouseEnterVoiceMenu(3)" @mouseleave="mouseLeaveVoiceMenu(3)">
+    <li
+      data-index="3"
+      @mouseenter="mouseEnterVoiceMenu(3)"
+      @mouseleave="mouseLeaveVoiceMenu(3)"
+    >
       <router-link to="">OPTIONS</router-link>
     </li>
-    <li data-index="4" @mouseenter="mouseEnterVoiceMenu(4)" @mouseleave="mouseLeaveVoiceMenu(4)">
+    <li
+      data-index="4"
+      @mouseenter="mouseEnterVoiceMenu(4)"
+      @mouseleave="mouseLeaveVoiceMenu(4)"
+    >
       <router-link to="">CREDITS</router-link>
     </li>
   </ul>
-  <div>
-    <img class="trainIcon" src="../assets/sagomaTrenoWithoutBackground.png" :style="trainIconPosition" />
-  </div>
 </template>
 
 <style>
-body {
+ul.menu {
   background-image: url("../assets/topScreen.jpeg");
   background-repeat: no-repeat;
-  background-size: cover 150%;
+  background-size: cover 200%;
   background-position: center top;
   background-attachment: scroll;
-}
+  height: 100%;
 
-ul.menu {
+  list-style-type: none;
+
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  list-style-type: none;
+  justify-content: center;
+  align-items: center;
+}
+
+ul.menu li {
+  flex: 1;
 }
 
 ul.menu li a {

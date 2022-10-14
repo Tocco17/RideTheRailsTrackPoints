@@ -7,7 +7,7 @@ export default defineComponent({
       navbarOpened: false,
     };
   },
-  setup() { },
+  setup() {},
   methods: {},
   computed: {},
 });
@@ -21,7 +21,7 @@ export default defineComponent({
 
 <style>
 body {
-  background-color: '#000';
+  background-color: "#000";
 }
 
 .router-page {
