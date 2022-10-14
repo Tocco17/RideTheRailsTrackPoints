@@ -111,6 +111,13 @@ export default defineComponent({
       <router-link to="">CREDITS</router-link>
     </li>
   </ul>
+  <div>
+    <img
+      class="trainIcon"
+      src="../assets/sagomaTrenoWithoutBackground.png"
+      :style="trainIconPosition"
+    />
+  </div>
 </template>
 
 <style>

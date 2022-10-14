@@ -20,6 +20,10 @@ export default defineComponent({
 </template>
 
 <style>
+* {
+  height: 100%;
+}
+
 body {
   background-color: "#000";
 }
