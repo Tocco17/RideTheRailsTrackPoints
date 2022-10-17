@@ -32,5 +32,6 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  height: 45%;
 }
 </style>

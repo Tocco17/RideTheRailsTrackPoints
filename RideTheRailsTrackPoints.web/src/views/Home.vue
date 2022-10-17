@@ -123,11 +123,11 @@ export default defineComponent({
 <style>
 ul.menu {
   background-image: url("../assets/topScreen.jpeg");
+  background-color: #f49d04;
   background-repeat: no-repeat;
   background-size: cover 200%;
   background-position: center top;
   background-attachment: scroll;
-  height: 45%;
 
   list-style-type: none;
 
