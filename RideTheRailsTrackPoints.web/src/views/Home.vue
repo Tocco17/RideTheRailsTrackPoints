@@ -127,7 +127,7 @@ ul.menu {
   background-size: cover 200%;
   background-position: center top;
   background-attachment: scroll;
-  height: 100%;
+  height: 45%;
 
   list-style-type: none;
 
@@ -163,6 +163,7 @@ ul.menu li.mouseHover {
 
 .trainIcon {
   width: 40px;
+  height: initial;
   position: absolute;
   -webkit-box-reflect: left v-bind(iconSpace);
   left: v-bind(iconX);
