@@ -1,7 +1,8 @@
+import PlayerInterface from "@/interfaces/PlayerInterface"
 import Color from "./Color"
 import PlayerBoard from "./PlayerBoard"
 
-export default class Player {
+export default class Player implements PlayerInterface {
     public name: string
     public color: Color
     public moneys: number
