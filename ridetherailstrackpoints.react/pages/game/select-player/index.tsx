@@ -1,44 +1,46 @@
+import PlayerComponent from "@/components/Game/PlayerComponent";
 import PlayerInterface from "@/interfaces/PlayerInterface";
 import { Colors } from "@/models/Color";
 import Player from "@/models/Player";
 import PlayerBoard from "@/models/PlayerBoard";
+import LocalStorageUtility from "@/utilities/storageUtility";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import PlayerComponent from "./PlayerComponent";
 
 interface PlayerToBeSelected extends PlayerInterface {
     checked: boolean
 }
 
-type SelectPlayerType = {
-    onPlayerSelection: (players: Player[]) => any
-}
+const SelectPlayer: NextPage = () => {
+    const router = useRouter()
 
-export default function SelectPlayer({onPlayerSelection}: SelectPlayerType){
     const [number, setNumber] = useState(3)
     const [players, setPlayers] = useState<PlayerToBeSelected[]>()
     const [playersSelected, setPlayersSelected] = useState<Player[]>()
 
+
     useEffect(() => {
         setPlayers([
             {
-                checked: false,
+                checked: true,
                 color: Colors.Player.white,
                 moneys: 0,
-                name: 'Piero',
+                name: 'Bea',
                 playerBoard: new PlayerBoard()
             },
             {
-                checked: false,
+                checked: true,
                 color: Colors.Player.cyan,
                 moneys: 0,
-                name: '',
+                name: 'Fede',
                 playerBoard: new PlayerBoard()
             },
             {
-                checked: false,
+                checked: true,
                 color: Colors.Player.green,
                 moneys: 0,
-                name: '',
+                name: 'Leo',
                 playerBoard: new PlayerBoard()
             },
             {
@@ -82,7 +84,11 @@ export default function SelectPlayer({onPlayerSelection}: SelectPlayerType){
 
     const onSubmit = (e: any) => {
         e.preventDefault()
-        if(number >= 3) onPlayerSelection(playersSelected ?? [])
+        if(number < 3) return
+
+        LocalStorageUtility.write(LocalStorageUtility.playersKey, players)
+        LocalStorageUtility.write(LocalStorageUtility.roundKey, 1)
+        router.push('take-a-share')
     }
 
     return (
@@ -99,3 +105,5 @@ export default function SelectPlayer({onPlayerSelection}: SelectPlayerType){
         </>
     )
 }
+
+export default SelectPlayer
