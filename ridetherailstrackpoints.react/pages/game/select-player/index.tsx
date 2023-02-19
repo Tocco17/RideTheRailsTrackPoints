@@ -69,21 +69,23 @@ const SelectPlayer: NextPage = () => {
     }, [playersSelected])
 
     const onNameChange = (event: any, index: number) => {
+        event.preventDefault()
         setPlayers(players?.map((p, i) => {
             if(i === index) p.name = event.target.value
             return p
         }))
     }
 
-    const onColorClicked = (index: number) => {
+    const onColorClicked = (event:any, index: number) => {
+        event.preventDefault()
         setPlayers(players?.map((p, i) => {
             if(i === index) p.checked = !p.checked
             return p
         }))
     }
 
-    const onSubmit = (e: any) => {
-        e.preventDefault()
+    const onSubmit = (event: any) => {
+        event.preventDefault()
         if(number < 3) return
 
         LocalStorageUtility.write(LocalStorageUtility.playersKey, players)
@@ -93,14 +95,19 @@ const SelectPlayer: NextPage = () => {
 
     return (
         <>
-        <form onSubmit={onSubmit} className='flex flex-col flex-wrap items-center justify-center min-h-screen'>
-        {
-            players?.map((p, i) => <PlayerComponent key={i} player={p} checked={p.checked} onColorClick={(_: any) => onColorClicked(i)} onNameChange={(e: any) => onNameChange(e, i)}/>)
-        }
-        {
-            number >= 3 && 
-            <button type="submit" className="self-end">Next</button>
-        }
+        <form onSubmit={onSubmit} className='flex flex-col flex-wrap items-center justify-center min-h-screen pr-40'>
+            {
+                players?.map((p, i) => <PlayerComponent key={i} player={p} checked={p.checked} onColorClick={(e: any) => onColorClicked(e, i)} onNameChange={(e: any) => onNameChange(e, i)}/>)
+            }
+            <div className="self-end flex flex-row">
+                <label>{number} out of 5 players selected</label>
+
+                {
+                    number >= 3 
+                    ? <button type="submit" className="pl-8">Next</button>
+                    : <label>{`(${3-number} other needed)`}</label>
+                }
+            </div>
         </form>
         </>
     )

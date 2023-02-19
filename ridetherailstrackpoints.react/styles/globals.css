@@ -109,3 +109,56 @@ a {
     color-scheme: dark;
   }
 }
+
+button.color-component{
+  color: black
+}
+
+
+.bg-p-white {
+  background-color: #ffffff;
+}
+
+.bg-p-cyan {
+  background-color: #22abb5;
+}
+
+.bg-p-pink {
+  background-color: #af6ce6;
+}
+
+.bg-p-green {
+  background-color: #17de14;
+}
+
+.bg-p-red {
+  background-color: #390961;
+}
+
+.bg-l-black {
+  background-color: #000000;
+}
+
+.bg-l-purple {
+  background-color: #2b00ff;
+}
+
+.bg-l-yellow {
+  background-color: #f2ff00;
+}
+
+.bg-l-orange {
+  background-color: #ff6a00;
+}
+
+.bg-l-blue {
+  background-color: #003cff;
+}
+
+.bg-l-red {
+  background-color: #ff1100;
+}
+
+.bg-opacity-color {
+  opacity: 0.25;
+}

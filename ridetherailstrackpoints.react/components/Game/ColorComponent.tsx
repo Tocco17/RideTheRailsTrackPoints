@@ -6,19 +6,35 @@ type ColorComponentType = {
     radius?: number
     check: boolean
     onClick?: any
-    className?: string 
+    className?: string
+    isLocomotive?: boolean
+    children?: React.ReactNode
 }
 
-export default function ColorComponent ({color, radius, check, onClick, className} : ColorComponentType) {
+export default function ColorComponent ({color, radius, check, onClick, className, isLocomotive, children} : ColorComponentType) {
     const [classes, setClasses] = useState<string>()
+    const [hasBeenRendered, setHasBeenRendered] = useState<boolean>(false)
+    
+    useEffect(() => {
+        if(hasBeenRendered) return
+        
+        setHasBeenRendered(true)
+        setCorrectClasses(check, color.name)
+    }, [])
 
     useEffect(() => {
-        let classToBeSet = `${className} w-${radius ?? 8} h-${radius ?? 8} bg-[${color.hex}] rounded-full `
-        if(!check) classToBeSet += 'bg-opacity-25 '
-        setClasses(classToBeSet)
-    }, [check])
+        setCorrectClasses(check, color.name)
+    }, [check, color.name])
+
+    const setCorrectClasses = (check: boolean, colorName: string) => {
+        setClasses(`w-8 h-8 rounded-full bg-p-${colorName} ${check ? '' : 'bg-opacity-color'} color-component`)
+    }
     
-    return <>
-    <div className={classes} onClick={onClick}></div>
+    return (
+    <>
+    <button className={classes} onClick={onClick}>
+        {children}
+    </button>
     </>
+    )
 }
