@@ -5,10 +5,11 @@ import { IoIosArrowDropright } from "react-icons/io";
 
 type TurnOrderComponentType = {
     players: PlayerInterface[]
+    inPlay: number
     className?: string
 }
 
-export default function TurnOrderComponent({players, className} : TurnOrderComponentType) {
+export default function TurnOrderComponent({players, inPlay, className} : TurnOrderComponentType) {
     const [number, setNumber] = useState<number>(0)
 
     useEffect(() => {
@@ -22,7 +23,7 @@ export default function TurnOrderComponent({players, className} : TurnOrderCompo
             players.map((p, i) => {
                 return (
                     <>
-                    <ColorComponent color={p.color} check={p.check} key={i}/>
+                    <ColorComponent color={p.color} check={i === inPlay} key={i}/>
                     {   
                         i !== number - 1 &&
                         <IoIosArrowDropright/>
