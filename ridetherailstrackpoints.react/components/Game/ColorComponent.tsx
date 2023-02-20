@@ -3,15 +3,12 @@ import { useEffect, useState } from "react"
 
 type ColorComponentType = {
     color: Color
-    radius?: number
     check: boolean
     onClick?: any
-    className?: string
-    isLocomotive?: boolean
     children?: React.ReactNode
 }
 
-export default function ColorComponent ({color, radius, check, onClick, className, isLocomotive, children} : ColorComponentType) {
+export default function ColorComponent ({color, check, onClick, children} : ColorComponentType) {
     const [classes, setClasses] = useState<string>()
     const [hasBeenRendered, setHasBeenRendered] = useState<boolean>(false)
     

@@ -16,41 +16,41 @@ const SelectPlayer: NextPage = () => {
 
     const [number, setNumber] = useState(3)
     const [players, setPlayers] = useState<PlayerInterface[]>()
-    const [playersSelected, setPlayersSelected] = useState<Player[]>()
+    const [playersSelected, setPlayersSelected] = useState<PlayerInterface[]>()
 
 
     useEffect(() => {
         setPlayers([
             {
-                checked: true,
+                check: true,
                 color: Colors.Player.white,
                 moneys: 0,
                 name: 'Bea',
                 playerBoard: new PlayerBoard()
             },
             {
-                checked: true,
+                check: true,
                 color: Colors.Player.cyan,
                 moneys: 0,
                 name: 'Fede',
                 playerBoard: new PlayerBoard()
             },
             {
-                checked: true,
+                check: true,
                 color: Colors.Player.green,
                 moneys: 0,
                 name: 'Leo',
                 playerBoard: new PlayerBoard()
             },
             {
-                checked: false,
+                check: false,
                 color: Colors.Player.pink,
                 moneys: 0,
                 name: '',
                 playerBoard: new PlayerBoard()
             },
             {
-                checked: false,
+                check: false,
                 color: Colors.Player.red,
                 moneys: 0,
                 name: '',
@@ -60,7 +60,7 @@ const SelectPlayer: NextPage = () => {
     }, [])
 
     useEffect(() => {
-        setPlayersSelected(players?.filter(p => p.checked)?.map(p => new Player(p.name, p.color)))
+        setPlayersSelected(players?.filter(p => p.check)?.map(p => new Player(p.name, p.color)))
     }, [players])
 
     useEffect(() => {
@@ -78,16 +78,16 @@ const SelectPlayer: NextPage = () => {
     const onColorClicked = (event:any, index: number) => {
         event.preventDefault()
         setPlayers(players?.map((p, i) => {
-            if(i === index) p.checked = !p.checked
+            if(i === index) p.check = !p.check
             return p
         }))
     }
 
     const onSubmit = (event: any) => {
         event.preventDefault()
-        if(!players || number < 3) return
+        if(!playersSelected || number < 3) return
 
-        LocalStorageUtility.write(LocalStorageUtility.playersKey, shuffle(players))
+        LocalStorageUtility.write(LocalStorageUtility.playersKey, shuffle(playersSelected))
         LocalStorageUtility.write(LocalStorageUtility.roundKey, 1)
         router.push('take-a-share')
     }

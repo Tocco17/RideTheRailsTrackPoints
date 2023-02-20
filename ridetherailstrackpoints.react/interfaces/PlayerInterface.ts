@@ -6,5 +6,5 @@ export default interface PlayerInterface {
     color: Color
     moneys: number
     playerBoard: PlayerBoard
-    checked: boolean
+    check: boolean
 }

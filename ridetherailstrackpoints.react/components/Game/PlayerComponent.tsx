@@ -12,21 +12,21 @@ export default function PlayerComponent ({player, onColorClick, onNameChange} : 
     const [isOk, setIsOk] = useState<boolean>()
 
     useEffect(() => {
-        setIsOk(player.checked && !!player && !!player.name)
-    }, [player, player.name, player.checked])
+        setIsOk(player.check && !!player && !!player.name)
+    }, [player, player.name, player.check])
 
     return <>
     <div className="flex p-4 flex-row content-center items-center">
-        <ColorComponent color={player.color} check={player.checked} onClick={onColorClick}>
+        <ColorComponent color={player.color} check={player.check} onClick={onColorClick}>
             {isOk && 'OK'}
         </ColorComponent>
         {
-            player.checked && (
+            player.check && (
                 <>
                 <div className="pl-4">
                 {
                     onNameChange
-                    ? player.checked && (<input type="text" defaultValue={player.name} onChange={onNameChange}></input>)
+                    ? player.check && (<input type="text" defaultValue={player.name} onChange={onNameChange}></input>)
                     : (<label>{player.name}</label>)
                 }
                 </div>
