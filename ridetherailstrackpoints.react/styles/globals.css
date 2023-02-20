@@ -162,3 +162,10 @@ button.color-component{
 .bg-opacity-color {
   opacity: 0.25;
 }
+
+.revert {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+
