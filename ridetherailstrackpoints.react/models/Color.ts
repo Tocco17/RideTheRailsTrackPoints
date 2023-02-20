@@ -1,4 +1,6 @@
-export default class Color {
+import ColorInterface from "@/interfaces/ColorInterface"
+
+export default class Color implements ColorInterface{
     public name: string
     public hex: string
 
