@@ -9,13 +9,15 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-
+interface PlayerToBeSelected extends PlayerInterface {
+    check: boolean
+}
 
 const SelectPlayer: NextPage = () => {
     const router = useRouter()
 
     const [number, setNumber] = useState(3)
-    const [players, setPlayers] = useState<PlayerInterface[]>()
+    const [players, setPlayers] = useState<PlayerToBeSelected[]>()
     const [playersSelected, setPlayersSelected] = useState<PlayerInterface[]>()
 
 
@@ -96,7 +98,7 @@ const SelectPlayer: NextPage = () => {
         <>
         <form onSubmit={onSubmit} className='flex flex-col flex-wrap items-center justify-center min-h-screen pr-40'>
             {
-                players?.map((p, i) => <PlayerComponent key={i} player={p} onColorClick={(e: any) => onColorClicked(e, i)} onNameChange={(e: any) => onNameChange(e, i)}/>)
+                players?.map((p, i) => <PlayerComponent key={i} player={p} check={p.check} onColorClick={(e: any) => onColorClicked(e, i)} onNameChange={(e: any) => onNameChange(e, i)}/>)
             }
             <div className="self-end flex flex-row">
                 <label>{number} out of 5 players selected</label>

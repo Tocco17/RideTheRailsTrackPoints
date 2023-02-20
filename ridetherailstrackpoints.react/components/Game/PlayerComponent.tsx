@@ -4,29 +4,30 @@ import ColorComponent from "./ColorComponent"
 
 type PlayerComponentProps = {
     player: PlayerInterface
+    check: boolean
     onNameChange?: any
     onColorClick?: any
 }
 
-export default function PlayerComponent ({player, onColorClick, onNameChange} : PlayerComponentProps)  {
+export default function PlayerComponent ({player, check, onColorClick, onNameChange} : PlayerComponentProps)  {
     const [isOk, setIsOk] = useState<boolean>()
 
     useEffect(() => {
-        setIsOk(player.check && !!player && !!player.name)
-    }, [player, player.name, player.check])
+        setIsOk(check && !!player && !!player.name)
+    }, [player, player.name, check])
 
     return <>
     <div className="flex p-4 flex-row content-center items-center">
-        <ColorComponent color={player.color} check={player.check} onClick={onColorClick}>
+        <ColorComponent color={player.color} check={check} onClick={onColorClick}>
             {isOk && 'OK'}
         </ColorComponent>
         {
-            player.check && (
+            check && (
                 <>
                 <div className="pl-4">
                 {
                     onNameChange
-                    ? player.check && (<input type="text" defaultValue={player.name} onChange={onNameChange}></input>)
+                    ? check && (<input type="text" defaultValue={player.name} onChange={onNameChange}></input>)
                     : (<label>{player.name}</label>)
                 }
                 </div>

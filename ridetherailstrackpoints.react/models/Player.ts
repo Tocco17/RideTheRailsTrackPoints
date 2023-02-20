@@ -7,13 +7,11 @@ export default class Player implements PlayerInterface {
     public color: Color
     public moneys: number
     public playerBoard: PlayerBoard
-    public check: boolean
 
     constructor(name: string, color: Color){
         this.name = name
         this.color = color
         this.moneys = 0
         this.playerBoard = new PlayerBoard()
-        this.check = false
     }
 }
