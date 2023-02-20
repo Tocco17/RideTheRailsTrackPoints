@@ -23,7 +23,8 @@ export const Colors = {
     },
     //All colors dedicated for the locomotives
     Locomotive: {
-        black: new Color('black', '#000000'),
+        // black: new Color('black', '#000000'),
+        black: new Color('black', '#606060'),
         purple: new Color('purple', '#2b00ff'),
         yellow: new Color('yellow', '#f2ff00'),
         orange: new Color('orange', '#ff6a00'),
