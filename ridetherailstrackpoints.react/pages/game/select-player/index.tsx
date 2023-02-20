@@ -3,20 +3,19 @@ import PlayerInterface from "@/interfaces/PlayerInterface";
 import { Colors } from "@/models/Color";
 import Player from "@/models/Player";
 import PlayerBoard from "@/models/PlayerBoard";
+import shuffle from "@/utilities/randomize";
 import LocalStorageUtility from "@/utilities/storageUtility";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-interface PlayerToBeSelected extends PlayerInterface {
-    checked: boolean
-}
+
 
 const SelectPlayer: NextPage = () => {
     const router = useRouter()
 
     const [number, setNumber] = useState(3)
-    const [players, setPlayers] = useState<PlayerToBeSelected[]>()
+    const [players, setPlayers] = useState<PlayerInterface[]>()
     const [playersSelected, setPlayersSelected] = useState<Player[]>()
 
 
@@ -86,9 +85,9 @@ const SelectPlayer: NextPage = () => {
 
     const onSubmit = (event: any) => {
         event.preventDefault()
-        if(number < 3) return
+        if(!players || number < 3) return
 
-        LocalStorageUtility.write(LocalStorageUtility.playersKey, players)
+        LocalStorageUtility.write(LocalStorageUtility.playersKey, shuffle(players))
         LocalStorageUtility.write(LocalStorageUtility.roundKey, 1)
         router.push('take-a-share')
     }
@@ -97,7 +96,7 @@ const SelectPlayer: NextPage = () => {
         <>
         <form onSubmit={onSubmit} className='flex flex-col flex-wrap items-center justify-center min-h-screen pr-40'>
             {
-                players?.map((p, i) => <PlayerComponent key={i} player={p} checked={p.checked} onColorClick={(e: any) => onColorClicked(e, i)} onNameChange={(e: any) => onNameChange(e, i)}/>)
+                players?.map((p, i) => <PlayerComponent key={i} player={p} onColorClick={(e: any) => onColorClicked(e, i)} onNameChange={(e: any) => onNameChange(e, i)}/>)
             }
             <div className="self-end flex flex-row">
                 <label>{number} out of 5 players selected</label>
