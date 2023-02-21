@@ -33,56 +33,94 @@ class TakeASharePlayerBoard {
 const TakeAShare: NextPage = () => {
     const [players, setPlayers] = useState<PlayerInterface[]>([]) //Playing players
     const [round, setRound] = useState<number>(1) //Round in play
-    const [playingIndex, setPlayingIndex] = useState<number>(0) //The index of the player that is playing
     const [locomotives, setLocomotives] = useState<LocomotiveInterface[]>([]) //Selectable locomotives
-    const [playingPlayerBoard, setPlayingPlayerBoard] = useState<TakeASharePlayerBoard>()
+    
     const [playerBoards, setPlayerBoards] = useState<TakeASharePlayerBoard[]>([]) //What has been selected by each player
-    const [hasSelected, setHasSelected] = useState<boolean>(false)
+
+    const [playingIndex, setPlayingIndex] = useState<number>(0) //The index of the player that is playing
+    const [playingPlayerBoard, setPlayingPlayerBoard] = useState<TakeASharePlayerBoard>()
+    
+    const [hasNext, setHasNext] = useState<boolean>(false)
     const [hasPrevious, setHasPrevious] = useState<boolean>(false)
+
     const [buttonsClassName, setButtonsClassName] = useState<string>('flex flex-row min-w-screen max-w-screen')
 
-    //Set the base 
+    const [locomotiveComponent, setLocomotiveComponent] = useState<any>()
+
+    const [hasBeenRendered, setHasBeenRendered] = useState<boolean>(false)
+
+    //First render
     useEffect(() => {
+        console.log('Render')
+        
+        // if(hasBeenRendered) return
+
         const playersStored = LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[] //Read from the localStorage
-        const length = playersStored.length
 
         setPlayers(playersStored)
-        setPlayingIndex(length - 1) //We start from the last player
+
         // setRound(LocalStorageUtility.read(LocalStorageUtility.roundKey))
         setRound(6)
 
-        setPlayerBoards(playersStored.map((_, i) => new TakeASharePlayerBoard(i)))
+        // setHasBeenRendered(true)
     }, [])
 
-    //Set the default value of all locomotives
     useEffect(() => {
+        console.log('Players')
+        
+        setPlayingIndex(players.length - 1)
+        setPlayerBoards(players.map((_, i) => new TakeASharePlayerBoard(i)))
+    }, [players])
+
+    //When round is changed then set the default locomotives value
+    useEffect(() => {
+        console.log('Round')
+        
         setDefaultLocomotives()
     }, [round])
 
-    //Change the playing playerboard and see if there are any previous player
+    //Whenever the playing index changes then the playing playerboard must change
     useEffect(() => {
+        console.log('playingIndex')
+        
         setPlayingPlayerBoard(TakeASharePlayerBoard.findPlayerBoard(playerBoards, playingIndex))
         setHasPrevious(playingIndex !== players.length - 1)
     }, [playingIndex])
 
-    //See if the player has selected a locomotive
-    useEffect(() => {
-        console.log('hasSelected')
-        setHasSelected(!!playingPlayerBoard && playingPlayerBoard?.locomotiveIndex >= 0) //If the playing user has selected a locomotive
-    }, [playerBoards, playingPlayerBoard])
+    
 
-    //Set the buttons classes list
+    //Whenever the locomotive index selected changes recalculate the hasNext boolean and save the data onto playerBoards
     useEffect(() => {
+        console.log('playingPlayerBoard.locomotiveIndex')
+        
+        const locomotiveIndex = !!playingPlayerBoard ? playingPlayerBoard.locomotiveIndex : -1
+        setHasNext(locomotiveIndex >= 0)
+        setPlayerBoards(playerBoards.map(pb => {
+            if(pb.playerIndex === playingIndex) pb.locomotiveIndex = locomotiveIndex
+            return pb
+        }))
+    }, [playingPlayerBoard?.locomotiveIndex])
+
+    useEffect(() => {
+        console.log('playingPlayerBoard')
+        setLocomotiveComponentJSX()
+    }, [playingPlayerBoard])
+
+    useEffect(() => {
+        console.log('hasPrevious, hasNext')
+        
         const defaultButtonsClassName = 'flex flex-row min-w-screen max-w-screen'
-        const moreClassNames = hasSelected && hasPrevious
+        const moreClassNames = hasNext && hasPrevious
             ? ' justify-between'
-            : hasSelected
+            : hasNext
                 ? ' justify-end'
                 : ' justify-start'
         setButtonsClassName(defaultButtonsClassName + moreClassNames)
-    }, [hasSelected, hasPrevious])
+    }, [hasPrevious, hasNext])
 
-    //Sets all the locomotives necessary for the round with the default values
+    
+
+    //Set the default values of all locomotives
     const setDefaultLocomotives = () => {
         const locomotivesAvailable : LocomotiveInterface[] = [
             {...Colors.Locomotive.red, check: false},
@@ -95,67 +133,64 @@ const TakeAShare: NextPage = () => {
         setLocomotives(locomotivesAvailable)
     }
 
-    //Go to the previous player
-    const previousPlayer = () => {
-        if(playingIndex === players.length - 1) return
-        
-        setPlayingIndex(playingIndex + 1)
-        setDefaultLocomotives()
+    const setLocomotiveComponentJSX = () => {
+        setLocomotiveComponent(
+            locomotives?.map((l, i) => 
+                <LocomotiveComponent color={l} key={i}
+                    check={!!playingPlayerBoard && playingPlayerBoard.locomotiveIndex === i} 
+                    onClick={(e:any) => onLocomotiveClick(e, i)}/>)
+        )
     }
-
-    //Set the next player that has to play
-    const nextPlayer = (event: any) => {
-        event.preventDefault()
-        if(playingIndex === 0){
-            nextPhase(event, true)
-            return
-        }
-
-        setDefaultLocomotives()
-        setPlayingIndex(playingIndex - 1)
-    }
-
-    //Go to the next phase of the game
-    const nextPhase = (event: any, fromNextPlayer = false) => {
-        if(fromNextPlayer) event.preventDefault()
-
-        setPlayers(players.map((p, i) => {
-            p.playerBoard.add(locomotives[TakeASharePlayerBoard.findLocomotive(playerBoards, i)].name)            
-            return p
-        }))
-
-        LocalStorageUtility.write(LocalStorageUtility.playersKey, players)
-    }
-
-    //Manage the click of a locomotive
+    
     const onLocomotiveClick = (event: any, index: number) => {
         event.preventDefault()
 
-        setLocomotives(locomotives.map((l, i) => {return {...l, check: i === index && !l.check}}))
+        if(!playingPlayerBoard){
+            console.error('Playing playerboard missing during the onLocomotiveClick event.')
+            return 
+        }
 
-        /*
-        playingPlayerBoard is saved with reference to a playerBoards element
-        If we change one element here, we change also the value of playingPlayerboard without useEffect
-        */
-        setPlayerBoards(
-            playerBoards.map(pb => {
-                if(pb.playerIndex === playingIndex) 
-                    pb.locomotiveIndex = pb.locomotiveIndex !== index ? index : -1
-                
-                return pb
-            })
-        )
+        const playerBoard = new TakeASharePlayerBoard(playingPlayerBoard.playerIndex)
+        playerBoard.locomotiveIndex = playingPlayerBoard.locomotiveIndex !== index ? index : -1
+        setPlayingPlayerBoard(playerBoard)
+
+        // playingPlayerBoard.locomotiveIndex = playingPlayerBoard.locomotiveIndex !== index ? index : -1
     }
+
+    const previousPlayer = (event: any) => {
+        event.preventDefault()
+        if(playingIndex !== players.length - 1) setPlayingIndex(playingIndex+1)
+    }
+
+    const nextPlayer = (event: any) => {
+        event.preventDefault()
+        if(playingIndex === 0) return nextPhase()
+        setPlayingIndex(playingIndex - 1)
+    }
+
+    const nextPhase = () => {
+
+    }
+
+    // console.log('Inizio')
+    // console.log(playingIndex)
+    // console.log(playerBoards)
+    // console.log(playingPlayerBoard)
+    // console.log('Fine')
 
     return (
         <>
         <div className="flex flex-col pt-20 min-h-screen max-h-screen">
             <TurnOrderComponent players={players} inPlay={playingIndex}/>
-            {/* <div className="flex flex-row flex-wrap justify-center content-center min-h-screen max-h-screen pt-10 "> */}
-            <div className="flex flex-col flex-wrap justify-center content-center  flex-grow">
+            <div className="flex flex-col flex-wrap justify-center content-center flex-grow">
                 {
-                    locomotives?.map((l, i) => 
-                    <LocomotiveComponent color={l} key={i} check={l.check} onClick={(e:any) => onLocomotiveClick(e, i)}/>)
+                    // locomotives?.map((l, i) => 
+                    // <LocomotiveComponent color={l} key={i}
+                    //     check={!!playingPlayerBoard && playingPlayerBoard.locomotiveIndex === i} 
+                    //     onClick={(e:any) => onLocomotiveClick(e, i)}/>)
+                }
+                {
+                    locomotiveComponent
                 }
             </div>
             <div className={buttonsClassName}>
@@ -163,7 +198,7 @@ const TakeAShare: NextPage = () => {
                     hasPrevious && <button className="px-20 pb-10" onClick={previousPlayer}>PREVIOUS</button>
                 }
                 {
-                    hasSelected && <button className="px-20 pb-10" onClick={nextPlayer}>NEXT</button>
+                    hasNext && <button className="px-20 pb-10" onClick={nextPlayer}>NEXT</button>
                 }
             </div>
         </div>
