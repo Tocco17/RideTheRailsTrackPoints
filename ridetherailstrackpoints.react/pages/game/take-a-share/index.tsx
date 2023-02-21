@@ -30,8 +30,17 @@ class TakeASharePlayerBoard {
     }
 }
 
+const getStoragePlayers = () => {
+    return LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[]
+}
+
+const getStorageRound = () => {
+    // return LocalStorageUtility.read(LocalStorageUtility.roundKey)
+    return 6
+}
+
 //Set the default values of all locomotives
-const setDefaultLocomotives = (round: number) => {
+const setDefaultLocomotives = (round: number, index?: number) => {
     const locomotives : LocomotiveInterface[] = [
         {...Colors.Locomotive.red, check: false},
         {...Colors.Locomotive.blue, check: false},
@@ -45,39 +54,19 @@ const setDefaultLocomotives = (round: number) => {
 }
 
 const TakeAShare: NextPage = () => {
-    const [players, setPlayers] = useState<PlayerInterface[]>([]) //Playing players
-    const [round, setRound] = useState<number>(0) //Round in play
+    const [players, setPlayers] = useState<PlayerInterface[]>(getStoragePlayers()) //Playing players
+    const [round, setRound] = useState<number>(getStorageRound()) //Round in play
     const [locomotives, setLocomotives] = useState<LocomotiveInterface[]>(setDefaultLocomotives(round)) //Selectable locomotives
     
-    const [playerBoards, setPlayerBoards] = useState<TakeASharePlayerBoard[]>([]) //What has been selected by each player
+    const [playerBoards, setPlayerBoards] = useState<TakeASharePlayerBoard[]>(players.map((_, i) => new TakeASharePlayerBoard(i))) //What has been selected by each player
 
-    const [playingIndex, setPlayingIndex] = useState<number>(0) //The index of the player that is playing
-    const [playingPlayerBoard, setPlayingPlayerBoard] = useState<TakeASharePlayerBoard>()
+    const [playingIndex, setPlayingIndex] = useState<number>(players.length - 1) //The index of the player that is playing
+    const [playingPlayerBoard, setPlayingPlayerBoard] = useState<TakeASharePlayerBoard>(TakeASharePlayerBoard.findPlayerBoard(playerBoards, playingIndex))
     
     const [hasNext, setHasNext] = useState<boolean>(false)
     const [hasPrevious, setHasPrevious] = useState<boolean>(false)
 
     const [buttonsClassName, setButtonsClassName] = useState<string>('flex flex-row min-w-screen max-w-screen')
-
-    useEffect(() => {
-        const playersStored = LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[]
-        const roundStored = LocalStorageUtility.read(LocalStorageUtility.roundKey)
-
-        setPlayers(playersStored)
-        setRound(roundStored)
-    }, [])
-
-    useEffect(() => {
-        setPlayerBoards(players.map((_, i) => new TakeASharePlayerBoard(i)))
-    }, [players])
-
-    useEffect(() => {
-        setPlayingIndex(players.length - 1)
-    }, [players.length])
-
-    useEffect(() => {
-        setLocomotives(setDefaultLocomotives(round))
-    }, [round])
 
     //Whenever the playing index changes then the playing playerboard must change
     useEffect(() => {
@@ -87,7 +76,6 @@ const TakeAShare: NextPage = () => {
 
     //Whenever the locomotive index selected changes recalculate the hasNext boolean and save the data onto playerBoards
     useEffect(() => {
-        console.log('pb')
         const locomotiveIndex = !!playingPlayerBoard ? playingPlayerBoard.locomotiveIndex : -1
 
         setHasNext(locomotiveIndex >= 0)
@@ -96,12 +84,13 @@ const TakeAShare: NextPage = () => {
             return pb
         }))
 
-        setLocomotives(locomotives.map((l, i) => {
+        setLocomotives(setDefaultLocomotives(round).map((l, i) => {
             l.check = locomotiveIndex === i
             return l
         }))
     }, [playingPlayerBoard?.locomotiveIndex])
 
+    //Sets the correct classes list 
     useEffect(() => {
         const defaultButtonsClassName = 'flex flex-row min-w-screen max-w-screen'
         const moreClassNames = hasNext && hasPrevious
@@ -123,8 +112,6 @@ const TakeAShare: NextPage = () => {
         const playerBoard = new TakeASharePlayerBoard(playingPlayerBoard.playerIndex)
         playerBoard.locomotiveIndex = playingPlayerBoard.locomotiveIndex !== index ? index : -1
         setPlayingPlayerBoard(playerBoard)
-
-        // playingPlayerBoard.locomotiveIndex = playingPlayerBoard.locomotiveIndex !== index ? index : -1
     }
 
     const previousPlayer = (event: any) => {
@@ -148,9 +135,10 @@ const TakeAShare: NextPage = () => {
             <TurnOrderComponent players={players} inPlay={playingIndex}/>
             <div className="flex flex-col flex-wrap justify-center content-center flex-grow">
                 {
+                    !!playerBoards && 
                     locomotives?.map((l, i) => 
                     <LocomotiveComponent color={l} key={i}
-                        check={l.check} 
+                        check={playingPlayerBoard.locomotiveIndex === i} 
                         onClick={(e:any) => onLocomotiveClick(e, i)}/>)
                 }
             </div>
