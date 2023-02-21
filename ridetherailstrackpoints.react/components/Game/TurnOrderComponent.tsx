@@ -23,7 +23,10 @@ export default function TurnOrderComponent({players, inPlay, className} : TurnOr
             players.map((p, i) => {
                 return (
                     <>
-                    <ColorComponent color={p.color} check={i === inPlay} key={i}/>
+                    <div className="flex flex-col justify-center content-center">
+                        <ColorComponent color={p.color} check={i === inPlay} key={i}/>
+                        <label className={`flex flex-row justify-center ${i === inPlay ? 'font-extrabold' : ''}`}>{p.name}</label>
+                    </div>
                     {   
                         i !== number - 1 &&
                         <IoIosArrowDropright/>
