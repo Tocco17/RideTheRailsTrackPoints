@@ -5,6 +5,7 @@ import PlayerInterface from "@/interfaces/PlayerInterface";
 import { Colors } from "@/models/Color";
 import useStore from "@/stores/gameStore";
 import { NextPage } from "next";
+import router from "next/router";
 import { useEffect, useState } from "react";
 
 interface LocomotiveInterface extends ColorInterface {
@@ -48,7 +49,7 @@ const setDefaultLocomotives = (round: number, index?: number) => {
 }
 
 const TakeAShare: NextPage = () => {
-    const [players, round, setPlayers] = useStore((state) => [state.players, state.round, state.setPlayers])
+    const [players, round, setPlayersStored] = useStore((state) => [state.players, state.round, state.setPlayers])
 
     const [locomotives, setLocomotives] = useState<LocomotiveInterface[]>(setDefaultLocomotives(round)) //Selectable locomotives
     
@@ -120,7 +121,12 @@ const TakeAShare: NextPage = () => {
     }
 
     const nextPhase = () => {
+        setPlayersStored(players.map((p, i) => {
+            p.playerBoard.add(locomotives[TakeASharePlayerBoard.findLocomotive(playerBoards, i)].name)
+            return p
+        }))
 
+        router.push('build-railroad-track')
     }
 
     return (
