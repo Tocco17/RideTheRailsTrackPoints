@@ -16,11 +16,7 @@ export default function LocomotiveComponent ({color, check, onClick}: Locomotive
     useEffect(() => {
         setIconContextProvider({
             color: color.hex,
-            size: false || check ? '150' : '100',
-            className: true || check ? '' : 'bg-opacity-color',
-            style: {
-                border: ''
-            }
+            size: check ? '150' : '100',
         })
     }, [color])
 
@@ -36,9 +32,6 @@ export default function LocomotiveComponent ({color, check, onClick}: Locomotive
                     <WiTrain/>
                 </div>
             </IconContext.Provider>
-            {
-                check && <div>OK</div>
-            }
         </button>
         </>
     )
