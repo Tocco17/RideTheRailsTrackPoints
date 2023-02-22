@@ -3,8 +3,8 @@ import PlayerInterface from "@/interfaces/PlayerInterface";
 import { Colors } from "@/models/Color";
 import Player from "@/models/Player";
 import PlayerBoard from "@/models/PlayerBoard";
+import useStore from "@/stores/gameStore";
 import shuffle from "@/utilities/randomize";
-import LocalStorageUtility from "@/utilities/storageUtility";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -19,6 +19,11 @@ const SelectPlayer: NextPage = () => {
     const [number, setNumber] = useState(3)
     const [players, setPlayers] = useState<PlayerToBeSelected[]>()
     const [playersSelected, setPlayersSelected] = useState<PlayerInterface[]>()
+
+    const [setPlayersStored, setRoundStored] = useStore((state) => [
+        state.setPlayers,
+        state.setRound
+    ])
 
 
     useEffect(() => {
@@ -89,8 +94,9 @@ const SelectPlayer: NextPage = () => {
         event.preventDefault()
         if(!playersSelected || number < 3) return
 
-        LocalStorageUtility.write(LocalStorageUtility.playersKey, shuffle(playersSelected))
-        LocalStorageUtility.write(LocalStorageUtility.roundKey, 1)
+        setPlayersStored(shuffle(playersSelected))
+        setRoundStored(1)
+
         router.push('take-a-share')
     }
 

@@ -3,7 +3,7 @@ import TurnOrderComponent from "@/components/Game/TurnOrderComponent";
 import ColorInterface from "@/interfaces/ColorInterface";
 import PlayerInterface from "@/interfaces/PlayerInterface";
 import { Colors } from "@/models/Color";
-import LocalStorageUtility from "@/utilities/storageUtility";
+import useStore from "@/stores/gameStore";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 
@@ -33,18 +33,6 @@ class TakeASharePlayerBoard {
     }
 }
 
-const getStoragePlayers = () => {
-    return typeof localStorage !== 'undefined' 
-        ? LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[] 
-        : []
-    // return LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[] 
-}
-
-const getStorageRound = () => {
-    // return LocalStorageUtility.read(LocalStorageUtility.roundKey)
-    return 6
-}
-
 //Set the default values of all locomotives
 const setDefaultLocomotives = (round: number, index?: number) => {
     const locomotives : LocomotiveInterface[] = [
@@ -60,8 +48,8 @@ const setDefaultLocomotives = (round: number, index?: number) => {
 }
 
 const TakeAShare: NextPage = () => {
-    const [players, setPlayers] = useState<PlayerInterface[]>(getStoragePlayers()) //Playing players
-    const [round, setRound] = useState<number>(getStorageRound()) //Round in play
+    const [players, round, setPlayers] = useStore((state) => [state.players, state.round, state.setPlayers])
+
     const [locomotives, setLocomotives] = useState<LocomotiveInterface[]>(setDefaultLocomotives(round)) //Selectable locomotives
     
     const [playerBoards, setPlayerBoards] = useState<TakeASharePlayerBoard[]>(TakeASharePlayerBoard.newPlayerBoards(players)) //What has been selected by each player
@@ -73,23 +61,6 @@ const TakeAShare: NextPage = () => {
     const [hasPrevious, setHasPrevious] = useState<boolean>(false)
 
     const [buttonsClassName, setButtonsClassName] = useState<string>('flex flex-row min-w-screen max-w-screen')
-
-    useEffect(() => {
-        setPlayers(getStoragePlayers())
-        setRound(getStorageRound())
-    }, [])
-
-    useEffect(() => {
-        setPlayerBoards(TakeASharePlayerBoard.newPlayerBoards(players))
-    }, [players])
-
-    useEffect(() => {
-        setPlayingIndex(players.length - 1)
-    }, [players.length])
-
-    useEffect(() => {
-        setLocomotives(setDefaultLocomotives(round))
-    }, [round])
 
     //Whenever the playing index changes then the playing playerboard must change
     useEffect(() => {
