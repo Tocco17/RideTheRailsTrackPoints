@@ -2,8 +2,7 @@ import LocomotiveComponent from "@/components/Game/LocomotiveComponent";
 import TurnOrderComponent from "@/components/Game/TurnOrderComponent";
 import ColorInterface from "@/interfaces/ColorInterface";
 import PlayerInterface from "@/interfaces/PlayerInterface";
-import Color, { Colors } from "@/models/Color";
-import Player from "@/models/Player";
+import { Colors } from "@/models/Color";
 import LocalStorageUtility from "@/utilities/storageUtility";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -21,6 +20,10 @@ class TakeASharePlayerBoard {
         this.locomotiveIndex = -1
     }
 
+    public static newPlayerBoards = (players: PlayerInterface[]) => {
+        return players.map((_, i) => new TakeASharePlayerBoard(i))
+    }
+
     public static findLocomotive = (playerBoards: TakeASharePlayerBoard[], playerIndex: number) => {
         return playerBoards.find(pb => pb.playerIndex === playerIndex)?.locomotiveIndex ?? -1
     }
@@ -31,7 +34,10 @@ class TakeASharePlayerBoard {
 }
 
 const getStoragePlayers = () => {
-    return LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[]
+    return typeof localStorage !== 'undefined' 
+        ? LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[] 
+        : []
+    // return LocalStorageUtility.read(LocalStorageUtility.playersKey) as PlayerInterface[] 
 }
 
 const getStorageRound = () => {
@@ -58,7 +64,7 @@ const TakeAShare: NextPage = () => {
     const [round, setRound] = useState<number>(getStorageRound()) //Round in play
     const [locomotives, setLocomotives] = useState<LocomotiveInterface[]>(setDefaultLocomotives(round)) //Selectable locomotives
     
-    const [playerBoards, setPlayerBoards] = useState<TakeASharePlayerBoard[]>(players.map((_, i) => new TakeASharePlayerBoard(i))) //What has been selected by each player
+    const [playerBoards, setPlayerBoards] = useState<TakeASharePlayerBoard[]>(TakeASharePlayerBoard.newPlayerBoards(players)) //What has been selected by each player
 
     const [playingIndex, setPlayingIndex] = useState<number>(players.length - 1) //The index of the player that is playing
     const [playingPlayerBoard, setPlayingPlayerBoard] = useState<TakeASharePlayerBoard>(TakeASharePlayerBoard.findPlayerBoard(playerBoards, playingIndex))
@@ -67,6 +73,23 @@ const TakeAShare: NextPage = () => {
     const [hasPrevious, setHasPrevious] = useState<boolean>(false)
 
     const [buttonsClassName, setButtonsClassName] = useState<string>('flex flex-row min-w-screen max-w-screen')
+
+    useEffect(() => {
+        setPlayers(getStoragePlayers())
+        setRound(getStorageRound())
+    }, [])
+
+    useEffect(() => {
+        setPlayerBoards(TakeASharePlayerBoard.newPlayerBoards(players))
+    }, [players])
+
+    useEffect(() => {
+        setPlayingIndex(players.length - 1)
+    }, [players.length])
+
+    useEffect(() => {
+        setLocomotives(setDefaultLocomotives(round))
+    }, [round])
 
     //Whenever the playing index changes then the playing playerboard must change
     useEffect(() => {
