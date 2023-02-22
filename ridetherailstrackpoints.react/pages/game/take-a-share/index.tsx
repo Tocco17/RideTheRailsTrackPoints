@@ -132,6 +132,7 @@ const TakeAShare: NextPage = () => {
     return (
         <>
         <div className="flex flex-col pt-20 min-h-screen max-h-screen">
+            <h2>TAKE A SHARE</h2>
             <TurnOrderComponent players={players} inPlay={playingIndex}/>
             <div className="flex flex-col flex-wrap justify-center content-center flex-grow">
                 {
