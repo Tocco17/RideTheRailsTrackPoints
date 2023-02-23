@@ -191,6 +191,30 @@ button.color-component{
   border-top: 30px solid white;
 }
 
+.special-station-button.check-active {
+  background-color: greenyellow;
+}
+
+.special-station-button.check-active:before {
+  border-bottom: 30px solid greenyellow;
+}
+
+.special-station-button.check-active:after {
+  border-top: 30px solid greenyellow;
+}
+
+.special-station-button.check-inactive {
+  background-color: grey;
+}
+
+.special-station-button.check-inactive:before {
+  border-bottom: 30px solid grey;
+}
+
+.special-station-button.check-inactive:after {
+  border-top: 30px solid grey;
+}
+
 .special-station-button label {
   font-size: 14px;
 }
