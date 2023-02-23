@@ -27,12 +27,12 @@ export default function TurnOrderComponent({players, inPlay, className} : TurnOr
                         <ColorComponent color={p.color} check={i === inPlay} key={i}/>
                         <label className={`flex flex-row justify-center ${i === inPlay ? 'font-extrabold' : ''}`}>{p.name}</label>
                     </div>
-                    <div className="flex flex-col justify-center">
-                        {   
-                            i !== number - 1 &&
-                            <IoIosArrowDropright/>
-                        }
-                    </div>
+                    {   
+                        i !== number - 1 &&
+                        <div className="flex flex-col justify-center">
+                                <IoIosArrowDropright/>
+                        </div>
+                    }
                     </>
                 )
             })
