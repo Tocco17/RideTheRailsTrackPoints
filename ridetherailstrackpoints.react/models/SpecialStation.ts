@@ -3,10 +3,10 @@ import Player from "./Player"
 export default class SpecialStation {
     public name: string
     public moneys: number
-    private limitation: number
+    private limitation?: number
     private achievedPlayers: Player[]
 
-    constructor(name: string, moneys: number, limitation: number){
+    constructor(name: string, moneys: number, limitation?: number){
         this.name = name
         this.moneys = moneys
         this.limitation = limitation
@@ -23,11 +23,11 @@ export default class SpecialStation {
     }
 
     public isFull(){
-        return this.achievedPlayers.length === this.limitation
+        return this.limitation && this.achievedPlayers.length === this.limitation
     }
 
     public left(){
-        return this.limitation - this.achievedPlayers.length
+        return this.limitation ? this.limitation - this.achievedPlayers.length : undefined
     }
 
     
