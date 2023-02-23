@@ -3,8 +3,8 @@ import Player from "./Player"
 export default class SpecialStation {
     public name: string
     public moneys: number
-    private limitation?: number
-    private achievedPlayers: Player[]
+    public limitation?: number
+    public achievedPlayers: Player[]
 
     constructor(name: string, moneys: number, limitation?: number){
         this.name = name
