@@ -8,29 +8,21 @@ type SpecialStationComponentType = {
     onClick: (...props: any) => any
 }
 
-/*
-!check
-check & playerIndex
-check & !playerIndex
-*/
-
 const SpecialStationComponent = ({station, playingIndex, onClick}: SpecialStationComponentType) => {
     station.isFull = SpecialStation.prototype.isFull
-    station.isCheck = SpecialStationChecked.prototype.isCheck
 
     const [buttonClassName, setButtonClassName] = useState<string>('flex flex-col items-center content-center justify-center special-station-button')
 
     useEffect(() => {
-        const defaultClassName = 'flex flex-col items-center content-center justify-center special-station-button'
-
-        if(!isCheck()) return setButtonClassName(defaultClassName)
-
-        if(station.playerIndeces.includes(playingIndex)) setButtonClassName(defaultClassName + ' check-active')
-        else if(!!station.limitation && station.playerIndeces.length === station.limitation) setButtonClassName(defaultClassName + ' check-inactive')
+        setButtonClassName(computeClassName())
     }, [station.playerIndeces, playingIndex])
 
-    const isCheck = () => {
-        return station.playerIndeces.includes(playingIndex)
+    const computeClassName = () => {
+        const defaultClassName = 'flex flex-col items-center content-center justify-center special-station-button'
+        if(!station.playerIndeces) return defaultClassName
+        if(station.playerIndeces.includes(playingIndex)) return defaultClassName + ' check-active'
+        if(station.limitation === station.achievedPlayers.length + station.playerIndeces.length) return defaultClassName + ' check-inactive'
+        return defaultClassName
     }
 
     

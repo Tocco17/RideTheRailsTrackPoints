@@ -74,10 +74,6 @@ const BuildRailroadTrack: NextPage = () => {
 
     const [playingIndex, setPlayingIndex] = useState<number>(0)
 
-    useEffect(() => {
-        setAllSpecialStations()
-    }, [specialStations])
-
     const setAllSpecialStations = () => {
         setSpecialChicago(SpecialStationChecked.getSpecialStation(specialStations, defaultChicago.name))
         setSpecialFiveDollarsCities(defaultFiveDollarsCities.map(f => SpecialStationChecked.getSpecialStation(specialStations, f.name)))
@@ -85,29 +81,25 @@ const BuildRailroadTrack: NextPage = () => {
         setSpecialFullTranscontinental(SpecialStationChecked.getSpecialStation(specialStations, defaultFullTranscontinental.name))
     }
 
-    const isStationCheck = (station: SpecialStationChecked) => {
-        /*
-        se pi non ha elementi allora non è ceccato -> check = !pi
-        se ha elementi bisogna vedere se i è inclusa -> 
-        */
-        return !station.playerIndeces || station.playerIndeces.includes(playingIndex)
-    }
-
     const onSpecialStationClick = (event: any, station: SpecialStation) => {
         event.preventDefault()
-        if(station.isFull()) return
 
         const stationClicked = SpecialStationChecked.getSpecialStation(specialStations, station.name)
-        if(!stationClicked) return
+        if(station.isFull() || !stationClicked) return
 
-        setSpecialPlayers(specialPlayers.map((p, i) => {
-            if(i === playingIndex) isStationCheck(stationClicked) ? p.moreMoneys -= station.moneys : p.moreMoneys += station.moneys
-            return p
-        }))
+        const player = specialPlayers[playingIndex]
 
-        if(isStationCheck(stationClicked)) stationClicked.playerIndeces.push(playingIndex)
-        else stationClicked.playerIndeces = stationClicked.playerIndeces.filter(i => playingIndex !== i)
-        
+        if(stationClicked.playerIndeces.includes(playingIndex)){
+            player.moneys -= stationClicked.moneys
+            stationClicked.playerIndeces = stationClicked.playerIndeces.filter(i => playingIndex !== i)
+        }
+        else{
+            if(stationClicked.limitation && stationClicked.limitation === stationClicked.achievedPlayers.length + stationClicked.playerIndeces.length) return
+            player.moreMoneys += stationClicked.moneys
+            stationClicked.playerIndeces.push(playingIndex)
+        }
+
+        setSpecialPlayers(specialPlayers.map((p, i) => i === playingIndex ? player : p))
         setSpecialStations(specialStations.map(s => s.id === stationClicked.id ? stationClicked : s))
     }
 
