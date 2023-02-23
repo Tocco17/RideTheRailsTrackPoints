@@ -190,3 +190,7 @@ button.color-component{
 .special-station-button:after {
   border-top: 30px solid white;
 }
+
+.special-station-button label {
+  font-size: 14px;
+}
