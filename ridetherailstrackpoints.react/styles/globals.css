@@ -168,4 +168,25 @@ button.color-component{
   transform: scaleX(-1);
 }
 
+.special-station-button {
+  background-color: white;
+  color: black;
+  height: 100px;
+  width: 100px;
+}
 
+.special-station-button:before, .special-station-button:after {
+  content: "";
+  width: 100%;
+  height: 30px;
+  border-left: 30px solid black;
+  border-right: 30px solid black;
+}
+
+.special-station-button:before {
+  border-bottom: 30px solid white;
+}
+
+.special-station-button:after {
+  border-top: 30px solid white;
+}
