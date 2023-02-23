@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 const getDefaultPlayersToPlay = (players: PlayerInterface[]) => players.map(p => ({...p, moreMoneys: 0} as PlayerMoneyInterface))
 
-const getSpecialStations = (stations: SpecialStation[]) => stations.map((s, i) => ({...s, id: i, check: false, playerIndex: -1} as SpecialStationChecked))
+const getSpecialStations = (stations: SpecialStation[]) => stations.map((s, i) => ({...s, id: i, check: false, playerIndex: [] as number[]} as SpecialStationChecked))
 
 const getDefaultPlayers: () => PlayerInterface[] = () => [
         {
@@ -74,6 +74,21 @@ const BuildRailroadTrack: NextPage = () => {
 
     const [playingIndex, setPlayingIndex] = useState<number>(0)
 
+    useEffect(() => {
+        specialStations.map((s, i) => {
+            s.check = s.playerIndex.includes(playingIndex)
+            return s
+        })
+    }, [playingIndex])
+
+    useEffect(() => {
+        setSpecialChicago
+        setSpecialFiveDollarsCities
+        setSpecialTranscontinental
+        setSpecialFullTranscontinental
+        
+    }, [specialStations])
+
     const onSpecialStationClick = (event: any, station: SpecialStation) => {
         event.preventDefault()
         if(station.isFull()) return
@@ -86,7 +101,10 @@ const BuildRailroadTrack: NextPage = () => {
             return p
         }))
         stationClicked.check = !stationClicked.check
-        stationClicked.playerIndex = stationClicked.check ? playingIndex : -1
+        // stationClicked.playerIndex = stationClicked.check ? playingIndex : -1
+        if(stationClicked.check) stationClicked.playerIndex.push(playingIndex)
+        else stationClicked.playerIndex = stationClicked.playerIndex.filter(i => playingIndex !== i)
+        // stationClicked.check ? stationClicked.playerIndex.push(playingIndex) : stationClicked.playerIndex.re(playingIndex)
         setSpecialStations(specialStations.map(s => s.id === stationClicked.id ? stationClicked : s))
     }
 
@@ -114,15 +132,15 @@ const BuildRailroadTrack: NextPage = () => {
             <h2 className="self-center py-20">BUILD RAILROAD TRACK</h2>
             <TurnOrderMoneyComponent players={specialPlayers} inPlay={playingIndex} />
             <div className="flex-grow flex flex-col justify-evenly">
-                <SpecialStationComponent station={specialChicago} onClick={(e: any) => onSpecialStationClick(e, defaultChicago)}/>
+                <SpecialStationComponent station={specialChicago} playingIndex={playingIndex} onClick={(e: any) => onSpecialStationClick(e, defaultChicago)}/>
                 <div className="flex flex-row justify-evenly content-evenly">
                     {
-                        specialFiveDollarsCities.map((fdc, i) => <SpecialStationComponent key={i} station={fdc} onClick={(e:any) => onSpecialStationClick(e, fdc)}/>)
+                        specialFiveDollarsCities.map((fdc, i) => <SpecialStationComponent key={i} station={fdc} playingIndex={playingIndex} onClick={(e:any) => onSpecialStationClick(e, fdc)}/>)
                     }
                 </div>
                 <div className="flex flex-row justify-evenly content-evenly">
                     {
-                        [specialTranscontinental, specialFullTranscontinental].map((t, i) => <SpecialStationComponent key={i} station={t} onClick={(e:any) => onSpecialStationClick(e, t)}/>)
+                        [specialTranscontinental, specialFullTranscontinental].map((t, i) => <SpecialStationComponent key={i} station={t} playingIndex={playingIndex} onClick={(e:any) => onSpecialStationClick(e, t)}/>)
                     }
                 </div>
             </div>
