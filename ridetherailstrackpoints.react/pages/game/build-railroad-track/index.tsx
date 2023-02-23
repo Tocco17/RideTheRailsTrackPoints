@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 const getDefaultPlayersToPlay = (players: PlayerInterface[]) => players.map(p => ({...p, moreMoneys: 0} as PlayerMoneyInterface))
 
-const getSpecialStations = (stations: SpecialStation[]) => stations.map((s, i) => ({...s, id: i, check: false, playerIndex: [] as number[]} as SpecialStationChecked))
+const getSpecialStations = (stations: SpecialStation[]) => stations.map((s, i) => ({...s, id: i, playerIndeces: [] as number[]} as SpecialStationChecked))
 
 const getDefaultPlayers: () => PlayerInterface[] = () => [
         {
@@ -75,19 +75,23 @@ const BuildRailroadTrack: NextPage = () => {
     const [playingIndex, setPlayingIndex] = useState<number>(0)
 
     useEffect(() => {
-        specialStations.map((s, i) => {
-            s.check = s.playerIndex.includes(playingIndex)
-            return s
-        })
-    }, [playingIndex])
-
-    useEffect(() => {
-        setSpecialChicago
-        setSpecialFiveDollarsCities
-        setSpecialTranscontinental
-        setSpecialFullTranscontinental
-        
+        setAllSpecialStations()
     }, [specialStations])
+
+    const setAllSpecialStations = () => {
+        setSpecialChicago(SpecialStationChecked.getSpecialStation(specialStations, defaultChicago.name))
+        setSpecialFiveDollarsCities(defaultFiveDollarsCities.map(f => SpecialStationChecked.getSpecialStation(specialStations, f.name)))
+        setSpecialTranscontinental(SpecialStationChecked.getSpecialStation(specialStations, defaultTranscontinental.name))
+        setSpecialFullTranscontinental(SpecialStationChecked.getSpecialStation(specialStations, defaultFullTranscontinental.name))
+    }
+
+    const isStationCheck = (station: SpecialStationChecked) => {
+        /*
+        se pi non ha elementi allora non è ceccato -> check = !pi
+        se ha elementi bisogna vedere se i è inclusa -> 
+        */
+        return !station.playerIndeces || station.playerIndeces.includes(playingIndex)
+    }
 
     const onSpecialStationClick = (event: any, station: SpecialStation) => {
         event.preventDefault()
@@ -97,14 +101,13 @@ const BuildRailroadTrack: NextPage = () => {
         if(!stationClicked) return
 
         setSpecialPlayers(specialPlayers.map((p, i) => {
-            if(i === playingIndex) stationClicked.check ? p.moreMoneys -= station.moneys : p.moreMoneys += station.moneys
+            if(i === playingIndex) isStationCheck(stationClicked) ? p.moreMoneys -= station.moneys : p.moreMoneys += station.moneys
             return p
         }))
-        stationClicked.check = !stationClicked.check
-        // stationClicked.playerIndex = stationClicked.check ? playingIndex : -1
-        if(stationClicked.check) stationClicked.playerIndex.push(playingIndex)
-        else stationClicked.playerIndex = stationClicked.playerIndex.filter(i => playingIndex !== i)
-        // stationClicked.check ? stationClicked.playerIndex.push(playingIndex) : stationClicked.playerIndex.re(playingIndex)
+
+        if(isStationCheck(stationClicked)) stationClicked.playerIndeces.push(playingIndex)
+        else stationClicked.playerIndeces = stationClicked.playerIndeces.filter(i => playingIndex !== i)
+        
         setSpecialStations(specialStations.map(s => s.id === stationClicked.id ? stationClicked : s))
     }
 
