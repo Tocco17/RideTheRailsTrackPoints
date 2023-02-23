@@ -1,5 +1,6 @@
 import LocomotiveComponent from "@/components/Game/LocomotiveComponent";
 import TurnOrderComponent from "@/components/Game/TurnOrderComponent";
+import PreviousNextComponent from "@/components/UI/PreviousNextComponent";
 import ColorInterface from "@/interfaces/ColorInterface";
 import PlayerInterface from "@/interfaces/PlayerInterface";
 import { Colors } from "@/models/Color";
@@ -61,8 +62,6 @@ const TakeAShare: NextPage = () => {
     const [hasNext, setHasNext] = useState<boolean>(false)
     const [hasPrevious, setHasPrevious] = useState<boolean>(false)
 
-    const [buttonsClassName, setButtonsClassName] = useState<string>('flex flex-row min-w-screen max-w-screen')
-
     //Whenever the playing index changes then the playing playerboard must change
     useEffect(() => {
         setPlayingPlayerBoard(TakeASharePlayerBoard.findPlayerBoard(playerBoards, playingIndex))
@@ -84,17 +83,6 @@ const TakeAShare: NextPage = () => {
             return l
         }))
     }, [playingPlayerBoard?.locomotiveIndex])
-
-    //Sets the correct classes list 
-    useEffect(() => {
-        const defaultButtonsClassName = 'flex flex-row min-w-screen max-w-screen'
-        const moreClassNames = hasNext && hasPrevious
-            ? ' justify-between'
-            : hasNext
-                ? ' justify-end'
-                : ' justify-start'
-        setButtonsClassName(defaultButtonsClassName + moreClassNames)
-    }, [hasPrevious, hasNext])
     
     const onLocomotiveClick = (event: any, index: number) => {
         event.preventDefault()
@@ -143,14 +131,7 @@ const TakeAShare: NextPage = () => {
                         onClick={(e:any) => onLocomotiveClick(e, i)}/>)
                 }
             </div>
-            <div className={buttonsClassName}>
-                {
-                    hasPrevious && <button className="px-20 pb-10" onClick={previousPlayer}>PREVIOUS</button>
-                }
-                {
-                    hasNext && <button className="px-20 pb-10" onClick={nextPlayer}>NEXT</button>
-                }
-            </div>
+            <PreviousNextComponent hasPrevious={hasPrevious} hasNext={hasNext} onPreviousClick={previousPlayer} onNextClick={nextPlayer}/>
         </div>
         </>
     )
